@@ -91,28 +91,23 @@
 
     <header class="sticky top-0 z-50 py-4 px-6 md:px-12 sticky-header">
         <nav class="container mx-auto flex flex-col md:flex-row items-center justify-between">
-            <div class="flex items-center mb-4 md:mb-0 w-full md:w-auto justify-between md:justify-start">
-                <img src="uploaded:image.png-6d3fddee-e440-403f-b1b5-0927e6d6e22c" alt="Logo da Fametro" class="h-12 mr-4">
-                
-                <a href="#home" class="text-2xl font-bold text-susBlue">GeoSUS</a>
-
-                <img src="uploaded:image.png-0721c4e1-d73f-4704-ba02-98ee76feb2ef" alt="Símbolo do SUS" class="h-12 ml-4">
+            <div class="flex items-center mb-4 md:mb-0">
+                <img src="https://i.pinimg.com/736x/9a/8d/86/9a8d86b49a90df53795b3563caf899a7.jpg" alt="Símbolo da Farmácia" class="h-12 w-12 mr-4 rounded-lg shadow-md object-contain">
+                <a href="#home" class="text-3xl font-bold text-susBlue">GeoSUS</a>
             </div>
             
-            <div class="flex items-center mt-4 md:mt-0 md:ml-8">
-                <img src="uploaded:image.png-95c8edee-63da-4f7a-8878-ed44ce4a7a31" alt="Símbolo da Farmácia" class="h-10 w-10 mr-2 rounded-full shadow-md">
-                <span class="font-semibold text-gray-700">Farmácia</span>
+            <div class="flex items-center flex-col md:flex-row mt-4 md:mt-0">
+                <img src="https://fametro.edu.br/wp-content/uploads/2022/02/Logo600.png" alt="Logo da Fametro" class="h-12 mr-8 rounded-lg shadow-md object-contain">
+                <ul class="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-8">
+                    <li><a href="#home" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Início</a></li>
+                    <li><a href="#benefits" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Benefícios</a></li>
+                    <li><a href="#clay-types" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Tipos de Argila</a></li>
+                    <li><a href="#geotherapy-sus" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Geoterapia no SUS</a></li>
+                    <li><a href="#how-to-use" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Dicas e Segurança</a></li>
+                    <li><a href="#quiz" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Questionário</a></li>
+                    <li><a href="#references" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Referências</a></li>
+                </ul>
             </div>
-
-            <ul class="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-8 mt-4 md:mt-0">
-                <li><a href="#home" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Início</a></li>
-                <li><a href="#benefits" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Benefícios</a></li>
-                <li><a href="#clay-types" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Tipos de Argila</a></li>
-                <li><a href="#geotherapy-sus" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Geoterapia no SUS</a></li>
-                <li><a href="#how-to-use" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Dicas e Segurança</a></li>
-                <li><a href="#quiz" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Questionário</a></li>
-                <li><a href="#references" class="text-gray-700 hover:text-susBlue transition-colors duration-300">Referências</a></li>
-            </ul>
         </nav>
     </header>
 
@@ -363,20 +358,19 @@
                         `).join('')}
                     </div>
                 `;
-                // Add event listeners to new buttons
                 document.querySelectorAll('.option-button').forEach(button => {
                     button.addEventListener('click', checkAnswer);
                 });
-                nextQuestionBtn.style.display = 'none'; // Hide next button until answer is checked
-                quizFeedback.textContent = ''; // Clear previous feedback
-                answeredCurrentQuestion = false; // Reset answered flag
+                nextQuestionBtn.style.display = 'none';
+                quizFeedback.textContent = '';
+                answeredCurrentQuestion = false;
             } else {
                 showResult();
             }
         }
 
         function checkAnswer(event) {
-            if (answeredCurrentQuestion) return; // Prevent multiple answers for the same question
+            if (answeredCurrentQuestion) return;
 
             answeredCurrentQuestion = true;
             const selectedOption = event.target;
@@ -384,7 +378,6 @@
             const correctAnswer = questions[currentQuestionIndex].answer;
             const optionsContainer = document.getElementById('options-container');
 
-            // Disable all option buttons for the current question
             Array.from(optionsContainer.children).forEach(button => {
                 button.disabled = true;
                 if (button.dataset.option === correctAnswer) {
@@ -408,8 +401,8 @@
             if (currentQuestionIndex < questions.length - 1) {
                 nextQuestionBtn.style.display = 'block';
             } else {
-                nextQuestionBtn.style.display = 'none'; // Hide next button on last question
-                setTimeout(showResult, 1000); // Show result after a short delay
+                nextQuestionBtn.style.display = 'none';
+                setTimeout(showResult, 1000);
             }
         }
 
@@ -423,8 +416,8 @@
                 <p class="text-2xl font-bold text-susBlue mb-4">Questionário Concluído!</p>
                 <p class="text-xl">Você acertou ${score} de ${questions.length} perguntas.</p>
             `;
-            quizFeedback.textContent = ''; // Clear feedback
-            quizScore.textContent = ''; // Clear score during result display
+            quizFeedback.textContent = '';
+            quizScore.textContent = '';
             nextQuestionBtn.style.display = 'none';
             restartQuizBtn.style.display = 'block';
         }
@@ -436,11 +429,9 @@
             renderQuestion();
         }
 
-        // Event Listeners for control buttons
         nextQuestionBtn.addEventListener('click', nextQuestion);
         restartQuizBtn.addEventListener('click', restartQuiz);
 
-        // Initial render
         renderQuestion();
     </script>
 
