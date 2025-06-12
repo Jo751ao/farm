@@ -3,439 +3,653 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoSUS – Saúde, Terra e Bem-Estar</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        // Cor principal alterada para dourado e suas tonalidades
-                        mainGold: '#b78932', // Novo dourado principal
-                        darkGold: '#9e742c', // Tonalidade mais escura para hover
-                        susGreen: '#33A852',
-                        neutralLightGray: '#F5F5F5',
-                        neutralBeige: '#FAFAFA',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'], // Using Inter as a clear sans-serif font
-                    }
-                }
-            }
-        }
-    </script>
+    <title>Feliz Dia dos Namorados, Ana Beatriz!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* Smooth scrolling for anchor links */
+        /* --- Configurações Globais e Variáveis de Cor --- */
+        :root {
+            --cor-principal: #fde2e4; /* Rosa claro */
+            --cor-secundaria: #fff1e6; /* Creme/Branco pêssego */
+            --cor-acento: #eaddcf;   /* Bege suave */
+            --cor-texto: #574152;   /* Roxo escuro/Vinho */
+            --cor-destaque: #c6a9b4;  /* Lilás/Rosa antigo */
+            --font-titulo: 'Dancing Script', cursive;
+            --font-subtitulo: 'Playfair Display', serif;
+            --font-corpo: 'Lato', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         html {
             scroll-behavior: smooth;
         }
-        /* Sticky header background and shadow */
-        .sticky-header {
-            background-color: #FFFFFF; /* White background for header */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow */
+
+        body {
+            font-family: var(--font-corpo);
+            background-color: var(--cor-secundaria);
+            color: var(--cor-texto);
+            line-height: 1.6;
         }
-        /* Custom styles for rounded elements and soft shadows */
-        .card {
-            border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
         }
-        /* Custom styles for buttons */
-        .btn-primary {
-            background-color: #b78932; /* mainGold */
-            color: #FFFFFF;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem; /* rounded-xl */
-            transition: background-color 0.3s ease;
+
+        /* --- Animações --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .btn-primary:hover {
-            background-color: #9e742c; /* darkGold on hover */
+
+        @keyframes popUp {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
-        .btn-secondary {
-            background-color: #33A852; /* susGreen */
-            color: #FFFFFF;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem; /* rounded-xl */
-            transition: background-color 0.3s ease;
+
+        @keyframes floatUp {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-150px); opacity: 0; }
         }
-        .btn-secondary:hover {
-            background-color: #2a8b42; /* Darker green on hover */
+
+
+        /* --- Cabeçalho --- */
+        .header {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--cor-principal), var(--cor-acento));
+            border-bottom-left-radius: 50% 20%;
+            border-bottom-right-radius: 50% 20%;
         }
-        .option-button {
-            background-color: #e0e0e0;
-            color: #333;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            text-align: left;
+
+        .header h1 {
+            font-family: var(--font-titulo);
+            font-size: 3.5rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* --- Seções e Títulos --- */
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: var(--font-subtitulo);
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '💕';
+            font-size: 1rem;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-left: 10px;
+            opacity: 0.8;
+        }
+        
+        /* --- Mensagem Romântica --- */
+        #mensagem {
+            text-align: center;
+        }
+
+        #mensagem p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #6d5d6e;
+        }
+
+        /* --- Galeria de Fotos --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
             width: 100%;
-            transition: background-color 0.2s ease, transform 0.1s ease;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        .option-button:hover:not(.correct):not(.incorrect) {
-            background-color: #d0d0d0;
-            transform: translateY(-2px);
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
         }
-        .option-button.correct {
-            background-color: #d4edda; /* Light green */
-            color: #155724; /* Dark green */
-            border: 2px solid #28a745;
+
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(87, 65, 82, 0.7);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-family: var(--font-subtitulo);
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
         }
-        .option-button.incorrect {
-            background-color: #f8d7da; /* Light red */
-            color: #721c24; /* Dark red */
-            border: 2px solid #dc3545;
+        
+        .gallery-item:hover .overlay {
+            transform: translateY(0);
         }
-        .option-button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
+
+        /* --- Linha do Tempo --- */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            background-color: var(--cor-destaque);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1.5px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            opacity: 0; /* Inicia invisível para animação de scroll */
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item.left {
+            left: 0;
+        }
+
+        .timeline-item.right {
+            left: 50%;
+        }
+
+        /* Círculos na linha do tempo */
+        .timeline-item::after {
+            content: '💖';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -14px;
+            top: 25px;
+            border-radius: 50%;
+            z-index: 1;
+            font-size: 1.5rem;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .timeline-item.right::after {
+            left: -11px;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            position: relative;
+        }
+        
+        .timeline-item.left .timeline-content {
+           text-align: right;
+        }
+
+        .timeline-content h3 {
+            font-family: var(--font-subtitulo);
+            color: var(--cor-destaque);
+        }
+
+        /* --- Botão de Surpresa --- */
+        .surprise-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        #surprise-btn {
+            background-color: var(--cor-principal);
+            color: var(--cor-texto);
+            border: 2px solid var(--cor-destaque);
+            padding: 1rem 2rem;
+            font-family: var(--font-subtitulo);
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #surprise-btn:hover {
+            background-color: var(--cor-destaque);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -10px var(--cor-destaque);
+        }
+
+        /* --- Modal de Surpresa --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--cor-secundaria), white);
+            margin: 15% auto;
+            padding: 40px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            animation: popUp 0.5s ease;
+        }
+
+        .close-btn {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .modal-content h3 {
+           font-family: var(--font-titulo);
+           font-size: 2.5rem;
+           color: var(--cor-destaque);
+           margin-bottom: 1rem;
+        }
+
+        .modal-content p {
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        /* --- Joguinho Romântico --- */
+        #game-section {
+            background-color: var(--cor-acento);
+            border-top: 5px solid white;
+            padding-bottom: 2rem;
+        }
+        
+        .game-intro {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .game-intro p {
+            max-width: 600px;
+            margin: 0.5rem auto 1.5rem;
+        }
+
+        #game-start-btn {
+            background-color: var(--cor-destaque);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        #game-start-btn:hover {
+            background-color: var(--cor-texto);
+        }
+
+        #game-area {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            background: linear-gradient(to bottom, #ffc3a0, #ffafbd); /* Gradiente romântico */
+            border-radius: 20px;
+            margin: 0 auto;
+            overflow: hidden;
+            border: 5px solid white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        #game-stats {
+            text-align: center;
+            font-size: 1.2rem;
+            font-family: var(--font-subtitulo);
+            margin-top: 1rem;
+        }
+
+        .heart-game {
+            position: absolute;
+            font-size: 2rem; /* Tamanho do coração */
+            cursor: pointer;
+            user-select: none;
+            animation: floatUp 3s linear forwards; /* Duração do coração na tela */
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));
+        }
+
+
+        /* --- Responsividade --- */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            /* Ajustes na Linha do Tempo para telas menores */
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item.left, .timeline-item.right {
+                left: 0;
+            }
+            
+            .timeline-item.left .timeline-content, .timeline-item.right .timeline-content {
+                text-align: left;
+            }
+
+            .timeline-item::after {
+                left: 15px;
+            }
+
+            .modal-content {
+                width: 90%;
+                margin: 25% auto;
+            }
         }
     </style>
 </head>
-<body class="font-sans text-gray-800 bg-neutralBeige">
+<body>
 
-    <header class="sticky top-0 z-50 py-4 px-6 md:px-12 sticky-header">
-        <nav class="container mx-auto flex flex-col md:flex-row items-center justify-between">
-            <div class="flex items-center justify-center md:justify-start w-full md:w-auto mb-4 md:mb-0">
-                <img src="https://i.ibb.co/Jj4r9rPk/image.png" alt="Símbolo da Farmácia" class="h-12 w-12 mr-4 rounded-lg shadow-md object-contain">
-                <a href="#home" class="text-3xl font-bold text-mainGold">GeoSUS</a>
-            </div>
-            
-            <div class="flex flex-col md:flex-row items-center justify-center md:justify-end w-full md:w-auto mt-4 md:mt-0">
-                <img src="https://fametro.edu.br/wp-content/uploads/2022/02/Logo600.png" alt="Logo da Fametro" class="h-12 mr-8 rounded-lg shadow-md object-contain">
-                <ul class="flex flex-wrap justify-center space-x-4 md:space-x-8">
-                    <li><a href="#home" class="text-gray-700 hover:text-mainGold transition-colors duration-300">Início</a></li>
-                    <li><a href="#benefits" class="text-gray-700 hover:text-mainGold transition-colors duration-300">Benefícios</a></li>
-                    <li><a href="#clay-types" class="text-gray-700 hover:text-mainGold transition-colors duration-300">Tipos de Argila</a></li>
-                    <li><a href="#geotherapy-sus" class="text-gray-700 hover:text-mainGold transition-colors duration-300">Geoterapia no SUS</a></li>
-                    <li><a href="#how-to-use" class="text-gray-700 hover:text-mainGold transition-colors duration-300">Dicas e Segurança</a></li>
-                    <li><a href="#quiz" class="text-gray-700 hover:text-mainGold transition-colors duration-300">Questionário</a></li>
-                    <li><a href="#references" class="text-gray-700 hover:text-mainGold transition-colors duration-300">Referências</a></li>
-                </ul>
-            </div>
-        </nav>
+    <!-- Cabeçalho com Título Principal -->
+    <header class="header">
+        <h1>Feliz Dia dos Namorados, Ana Beatriz 💖</h1>
     </header>
 
-    <section id="home" class="relative bg-mainGold text-white py-20 md:py-32 flex items-center justify-center min-h-screen-75">
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6 animate-fade-in-up">GeoSUS – Saúde, Terra e Bem-Estar</h1>
-            <p class="text-lg md:text-xl max-w-3xl mx-auto mb-10 animate-fade-in-up delay-200">
-                A Geoterapia é uma prática terapêutica que utiliza recursos naturais, especialmente a argila, para promover saúde, bem-estar e equilíbrio. Embora uma técnica milenar, ela permanece altamente relevante hoje, com estudos modernos confirmando seus benefícios físicos, emocionais e estéticos. O uso medicinal da argila representa um cuidado que combina saberes tradicionais, sustentabilidade e promoção da saúde, fortalecendo a conexão entre as pessoas e os recursos naturais.
+    <main>
+        <!-- Seção da Mensagem Romântica -->
+        <section id="mensagem">
+            <div class="container">
+                <h2 class="section-title">Para o amor da minha vida</h2>
+                <p>
+                    Meu amor, hoje não é apenas mais um dia no calendário. É o dia de celebrar a sorte que eu tenho por ter você ao meu lado. Cada risada, cada abraço, cada momento que passamos juntos se transformou na base da minha felicidade. Você trouxe cores para o meu mundo que eu nem sabia que existiam. Obrigado por ser minha parceira, minha melhor amiga e meu grande amor. Que a nossa história continue sendo escrita com capítulos de muito carinho, respeito e cumplicidade. Eu te amo mais do que as palavras podem expressar.
+                </p>
+            </div>
+        </section>
+
+        <!-- Seção da Galeria de Fotos -->
+        <section id="galeria">
+            <div class="container">
+                <h2 class="section-title">Nossos Momentos</h2>
+                <div class="gallery-grid">
+                    <!-- Item 1 -->
+                    <div class="gallery-item">
+                        <img src="https://i.postimg.cc/KjhQCz0S/IMG-20230929-WA0114.jpg" alt="Foto representando o primeiro beijo" onerror="this.onerror=null;this.src='https://placehold.co/400x400/fde2e4/574152?text=Nosso+Primeiro+Beijo';">
+                         <div class="overlay">O beijo que mudou tudo</div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="gallery-item">
+                        <img src="https://i.postimg.cc/HssPmJpd/20230929-184825.jpg" alt="Foto do primeiro encontro" onerror="this.onerror=null;this.src='https://placehold.co/400x400/eaddcf/574152?text=Primeiro+Encontro';">
+                        <div class="overlay">Onde tudo começou</div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="gallery-item">
+                        <img src="https://i.postimg.cc/7ZB5RWKq/20231122-113925.jpg" alt="Foto de um momento casual" onerror="this.onerror=null;this.src='https://placehold.co/400x400/c6a9b4/fff1e6?text=Um+dia+qualquer';">
+                        <div class="overlay">Simplesmente nós</div>
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="gallery-item">
+                        <img src="https://i.postimg.cc/RFSb0qc7/20231231-203239.jpg" alt="Foto de uma comemoração" onerror="this.onerror=null;this.src='https://placehold.co/400x400/fff1e6/574152?text=Comemorando';">
+                        <div class="overlay">Celebrando a vida</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção da Linha do Tempo -->
+        <section id="timeline-section">
+            <div class="container">
+                <h2 class="section-title">Nossa História</h2>
+                <div class="timeline">
+                    <!-- Cada item é um .timeline-item -->
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <h3>Quando nos conhecemos</h3>
+                            <p>Um dia que mudou tudo. Mal sabia eu que tinha acabado de encontrar a pessoa mais incrível do mundo.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <h3>Primeiro Encontro</h3>
+                            <p>O nervosismo, as risadas e a certeza de que algo especial estava florescendo entre nós.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <h3>Primeiro Beijo</h3>
+                            <p>O momento em que o tempo parou e nossos corações falaram mais alto. Inesquecível.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <h3>Pedido de Namoro</h3>
+                            <p>O "sim" mais importante e feliz da minha vida. O começo oficial da nossa jornada juntos.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="surprise-container">
+                    <button id="surprise-btn">Clique aqui para uma surpresa 💌</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção do Joguinho Romântico -->
+        <section id="game-section">
+            <div class="container">
+                 <h2 class="section-title">Um Joguinho Para Você</h2>
+                 <div class="game-intro">
+                    <p>Agora, um pequeno desafio para se divertir. O objetivo é simples: clique no máximo de corações que conseguir antes que eles desapareçam! Vamos ver o quanto de amor você consegue pegar. ❤️</p>
+                    <button id="game-start-btn">Começar a Jogar!</button>
+                 </div>
+                 <div id="game-area"></div>
+                 <div id="game-stats">
+                     Pontuação: <span id="score">0</span> | Tempo: <span id="time">30</span>s
+                 </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal da Surpresa -->
+    <div id="surprise-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Com todo o meu amor...</h3>
+            <p>
+                Se eu pudesse te dar uma coisa na vida,
+                eu te daria a capacidade de ver a si mesma através dos meus olhos.
+                Só então você perceberia o quão especial você é para mim.
+                <br/><br/>
+                <strong>Eu te amo.</strong>
             </p>
-            <img src="https://placehold.co/600x300/F5F5F5/b78932?text=Argila+e+Natureza" alt="[Image of Argila e Natureza]" class="mx-auto rounded-xl shadow-lg mb-10 max-w-full h-auto">
-            <a href="#benefits" class="btn-primary inline-block animate-fade-in-up delay-400">Explore os Benefícios</a>
         </div>
-    </section>
+    </div>
 
-    <section id="benefits" class="py-16 md:py-24 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-mainGold mb-12">Benefícios da Geoterapia e Argiloterapia</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card bg-neutralLightGray p-6 text-center">
-                    <div class="text-susGreen text-5xl mb-4">🌿</div> <h3 class="text-xl font-semibold text-mainGold mb-2">Desintoxicação</h3>
-                    <p class="text-gray-700">Remove toxinas, impurezas e oleosidade da pele.</p>
-                </div>
-                <div class="card bg-neutralLightGray p-6 text-center">
-                    <div class="text-susGreen text-5xl mb-4">🩹</div> <h3 class="text-xl font-semibold text-mainGold mb-2">Anti-inflamatório</h3>
-                    <p class="text-gray-700">Ajuda a aliviar dores musculares, articulares e inflamações.</p>
-                </div>
-                <div class="card bg-neutralLightGray p-6 text-center">
-                    <div class="text-susGreen text-5xl mb-4">✨</div> <h3 class="text-xl font-semibold text-mainGold mb-2">Cicatrização e Regeneração</h3>
-                    <p class="text-gray-700">Estimula a recuperação dos tecidos e a cicatrização de feridas.</p>
-                </div>
-                <div class="card bg-neutralLightGray p-6 text-center">
-                    <div class="text-susGreen text-5xl mb-4">🩸</div> <h3 class="text-xl font-semibold text-mainGold mb-2">Melhora da Circulação</h3>
-                    <p class="text-gray-700">Aprimora o fluxo sanguíneo e linfático.</p>
-                </div>
-                <div class="card bg-neutralLightGray p-6 text-center">
-                    <div class="text-susGreen text-5xl mb-4">🧘‍♀️</div> <h3 class="text-xl font-semibold text-mainGold mb-2">Relaxamento e Bem-Estar</h3>
-                    <p class="text-gray-700">Promove o equilíbrio mental, emocional e físico.</p>
-                </div>
-                <div class="card bg-neutralLightGray p-6 text-center">
-                    <div class="text-susGreen text-5xl mb-4">💅</div> <h3 class="text-xl font-semibold text-mainGold mb-2">Apoio Estético</h3>
-                    <p class="text-gray-700">Útil em tratamentos para acne, celulite, flacidez, psoríase e manchas.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="clay-types" class="py-16 md:py-24 bg-neutralBeige">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-mainGold mb-12">Tipos de Argila e Seus Usos</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-                <div class="card bg-white p-6 flex flex-col md:flex-row items-center">
-                    <div class="w-24 h-24 rounded-full bg-yellow-400 flex-shrink-0 mr-6 mb-4 md:mb-0 shadow-inner"></div>
-                    <div>
-                        <h3 class="text-2xl font-semibold text-mainGold mb-2">Argila Amarela</h3>
-                        <ul class="list-disc list-inside text-gray-700 space-y-1">
-                            <li>Rica em sílica.</li>
-                            <li>Estimula a produção de colágeno.</li>
-                            <li>Melhora a firmeza da pele, reduz celulite e flacidez.</li>
-                            <li>Ideal para revitalizar peles cansadas e envelhecidas.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card bg-white p-6 flex flex-col md:flex-row items-center">
-                    <div class="w-24 h-24 rounded-full bg-gray-800 flex-shrink-0 mr-6 mb-4 md:mb-0 shadow-inner"></div>
-                    <div>
-                        <h3 class="text-2xl font-semibold text-mainGold mb-2">Argila Preta</h3>
-                        <ul class="list-disc list-inside text-gray-700 space-y-1">
-                            <li>Desintoxicante natural.</li>
-                            <li>Combate acne, inflamações e sinais de envelhecimento.</li>
-                            <li>Propriedades anti-inflamatórias, antioxidantes e cicatrizantes.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card bg-white p-6 flex flex-col md:flex-row items-center">
-                    <div class="w-24 h-24 rounded-full bg-green-600 flex-shrink-0 mr-6 mb-4 md:mb-0 shadow-inner"></div>
-                    <div>
-                        <h3 class="text-2xl font-semibold text-mainGold mb-2">Argila Verde</h3>
-                        <ul class="list-disc list-inside text-gray-700 space-y-1">
-                            <li>Efeito adstringente, tonificante e secativo.</li>
-                            <li>Controla a oleosidade da pele.</li>
-                            <li>Reduz poros e ilumina a pele.</li>
-                            <li>Perfeita para peles oleosas, acneicas e com manchas.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card bg-white p-6 flex flex-col md:flex-row items-center">
-                    <div class="w-24 h-24 rounded-full bg-pink-400 flex-shrink-0 mr-6 mb-4 md:mb-0 shadow-inner"></div>
-                    <div>
-                        <h3 class="text-2xl font-semibold text-mainGold mb-2">Argila Rosa</h3>
-                        <ul class="list-disc list-inside text-gray-700 space-y-1">
-                            <li>Mistura de argila branca e vermelha.</li>
-                            <li>Suave, regeneradora, melhora a elasticidade.</li>
-                            <li>Promove cicatrização e suaviza linhas finas.</li>
-                            <li>Melhor para peles sensíveis, delicadas ou com tendência à vermelhidão.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="geotherapy-sus" class="py-16 md:py-24 bg-mainGold text-white">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-8">Geoterapia no SUS</h2>
-            <p class="text-lg md:text-xl max-w-4xl mx-auto mb-10">
-                A Geoterapia é integrada ao Sistema Único de Saúde (SUS) por meio da Política Nacional de Práticas Integrativas e Complementares (PNPIC). Ela está disponível em algumas unidades de saúde como uma abordagem complementar e holística que promove o bem-estar físico, emocional e social. A argiloterapia no SUS valoriza os saberes ancestrais, a sustentabilidade e o cuidado humanizado, proporcionando uma alternativa natural e acessível de saúde para a população.
-            </p>
-            <a href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/p/pics" target="_blank" rel="noopener noreferrer" class="btn-secondary inline-block">
-                Saiba Mais Sobre PICS – Ministério da Saúde
-            </a>
-        </div>
-    </section>
-
-    <section id="how-to-use" class="py-16 md:py-24 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-mainGold mb-12">Como Usar a Argila – Dicas e Segurança</h2>
-            <div class="max-w-3xl mx-auto bg-neutralLightGray p-8 rounded-xl shadow-md">
-                <ul class="list-disc list-inside text-gray-700 space-y-4 text-lg">
-                    <li><strong class="text-mainGold">Use recipientes não metálicos:</strong> Prefira vidro, cerâmica ou plástico para misturar a argila.</li>
-                    <li><strong class="text-mainGold">Prepare a pasta:</strong> Misture a argila com água filtrada ou mineral até formar uma pasta homogênea.</li>
-                    <li><strong class="text-mainGold">Aplique na pele limpa:</strong> Espalhe na área desejada (rosto, corpo ou região específica).</li>
-                    <li><strong class="text-mainGold">Tempo de ação:</strong> Deixe agir por 20–30 minutos, evitando que seque completamente (pulverize água se necessário).</li>
-                    <li><strong class="text-mainGold">Enxágue:</strong> Remova com água corrente.</li>
-                    <li><strong class="text-mainGold">Finalize:</strong> Aplique um hidratante após o enxágue.</li>
-                </ul>
-                <div class="mt-8 p-6 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 rounded-lg">
-                    <p class="font-semibold mb-2">Nota Importante:</p>
-                    <p>É recomendado buscar orientação de um profissional de saúde, especialmente em casos de pele sensível, lesões ou condições específicas. No sistema SUS, a argiloterapia é aplicada sob supervisão profissional.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="quiz" class="py-16 md:py-24 bg-neutralBeige">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-mainGold mb-12">Questionário Interativo</h2>
-            <div id="quiz-container" class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md">
-                <div id="question-display" class="text-lg mb-6">
-                    </div>
-                <div class="flex flex-col md:flex-row justify-between items-center mt-6 space-y-4 md:space-y-0 md:space-x-4">
-                    <button id="next-question-btn" class="btn-primary w-full md:w-auto" style="display: none;">Próxima Pergunta</button>
-                    <button id="restart-quiz-btn" class="btn-secondary w-full md:w-auto" style="display: none;">Reiniciar Questionário</button>
-                </div>
-                <div id="quiz-feedback" class="mt-4 text-center text-lg font-semibold"></div>
-                <div id="quiz-score" class="mt-4 text-center text-xl font-bold text-mainGold"></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="references" class="py-16 md:py-24 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-mainGold mb-12">Fontes e Referências</h2>
-            <div class="max-w-3xl mx-auto bg-neutralLightGray p-8 rounded-xl shadow-md">
-                <ul class="list-disc list-inside text-gray-700 space-y-3 text-lg">
-                    <li>Revista Homem, Espaço e Tempo, nº 14, volume 1, p. 65-78, Jan/Dez 2020.</li>
-                    <li>Política Nacional de Práticas Integrativas e Complementares (PNPIC) – Ministério da Saúde do Brasil.</li>
-                    <li>Dados adicionais de literatura científica e materiais oficiais das PICS.</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-mainGold text-white py-8 text-center">
-        <div class="container mx-auto px-6">
-            <p class="text-lg mb-4">GeoSUS – Conectando Saúde, Natureza e Bem-Estar. Para uma saúde integrativa, acessível e sustentável.</p>
-            <p class="text-md mb-2">Professora Orientadora: Elyciane Guimarães</p>
-            <p class="text-md mb-2">Curso de Farmácia - 5° Período B</p>
-            <p class="text-md mb-4">Alunos: João Antonio, Miriã Alves, Polyanna Alvarenga, Alice Martins e Jeovana Glenda</p>
-            <p class="text-sm">&copy; 2024 GeoSUS. Todos os direitos reservados.</p>
-        </div>
-    </footer>
 
     <script>
-        const questions = [
-            {
-                question: "1. O que é Geoterapia?",
-                options: ["A) Uma prática terapêutica que utiliza música para relaxamento.", "B) Uma prática terapêutica que utiliza recursos naturais, especialmente a argila.", "C) Um tipo de exercício físico para fortalecimento muscular."],
-                answer: "B"
-            },
-            {
-                question: "2. Qual recurso natural é mais utilizado na geoterapia?",
-                options: ["A) Água de nascente.", "B) Argila.", "C) Plantas medicinais."],
-                answer: "B"
-            },
-            {
-                question: "3. A geoterapia faz parte de qual política do SUS?",
-                options: ["A) Política Nacional de Humanização (PNH).", "B) Política Nacional de Práticas Integrativas e Complementares (PNPIC).", "C) Política Nacional de Atenção Básica (PNAB)."],
-                answer: "B"
-            },
-            {
-                question: "4. Qual tipo de argila é rica em sílica e estimula a produção de colágeno, sendo ideal para peles cansadas e envelhecidas?",
-                options: ["A) Argila Verde.", "B) Argila Preta.", "C) Argila Amarela."],
-                answer: "C"
-            },
-            {
-                question: "5. Qual argila tem efeito adstringente, tonificante e secativo, sendo perfeita para peles oleosas e acneicas?",
-                options: ["A) Argila Rosa.", "B) Argila Verde.", "C) Argila Amarela."],
-                answer: "B"
-            },
-            {
-                question: "6. Qual argila é uma mistura de argila branca e vermelha, sendo suave e ideal para peles sensíveis?",
-                options: ["A) Argila Amarela.", "B) Argila Preta.", "C) Argila Rosa."],
-                answer: "C"
-            },
-            {
-                question: "7. Por quanto tempo a argila deve agir na pele durante a aplicação?",
-                options: ["A) 10 a 15 minutos.", "B) 20 a 30 minutos.", "C) 60 minutos ou mais."],
-                answer: "A"
-            },
-            {
-                question: "8. É recomendado usar recipientes de qual material para misturar a argila?",
-                options: ["A) Metal.", "B) Plástico, vidro ou cerâmica.", "C) Madeira."],
-                answer: "B"
-            },
-            {
-                question: "9. A argila é eficaz na desintoxicação da pele?",
-                options: ["A) Sim, ajuda a remover toxinas e impurezas.", "B) Não, seu uso é apenas para hidratação.", "C) Apenas para cabelos, não para a pele."],
-                answer: "A"
-            },
-            {
-                question: "10. A geoterapia no SUS valoriza saberes ancestrais e sustentabilidade?",
-                options: ["A) Sim, valoriza ambos.", "B) Não, apenas a sustentabilidade.", "C) Não, apenas os saberes ancestrais."],
-                answer: "A"
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Lógica para o Modal de Surpresa ---
+            const modal = document.getElementById('surprise-modal');
+            const btn = document.getElementById('surprise-btn');
+            const span = document.getElementsByClassName('close-btn')[0];
+
+            // Abre o modal ao clicar no botão
+            btn.onclick = function() {
+                modal.style.display = 'block';
             }
-        ];
 
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let answeredCurrentQuestion = false;
-
-        const quizContainer = document.getElementById('quiz-container');
-        const questionDisplay = document.getElementById('question-display');
-        const nextQuestionBtn = document.getElementById('next-question-btn');
-        const restartQuizBtn = document.getElementById('restart-quiz-btn');
-        const quizFeedback = document.getElementById('quiz-feedback');
-        const quizScore = document.getElementById('quiz-score');
-
-        function renderQuestion() {
-            if (currentQuestionIndex < questions.length) {
-                const q = questions[currentQuestionIndex];
-                questionDisplay.innerHTML = `
-                    <p class="font-bold text-mainGold mb-4">${q.question}</p>
-                    <div class="flex flex-col space-y-3" id="options-container">
-                        ${q.options.map((option, index) => `
-                            <button class="option-button" data-option="${String.fromCharCode(65 + index)}">
-                                ${option}
-                            </button>
-                        `).join('')}
-                    </div>
-                `;
-                document.querySelectorAll('.option-button').forEach(button => {
-                    button.addEventListener('click', checkAnswer);
-                });
-                nextQuestionBtn.style.display = 'none';
-                quizFeedback.textContent = '';
-                answeredCurrentQuestion = false;
-            } else {
-                showResult();
+            // Fecha o modal ao clicar no 'x'
+            span.onclick = function() {
+                modal.style.display = 'none';
             }
-        }
 
-        function checkAnswer(event) {
-            if (answeredCurrentQuestion) return;
-
-            answeredCurrentQuestion = true;
-            const selectedOption = event.target;
-            const selectedAnswer = selectedOption.dataset.option;
-            const correctAnswer = questions[currentQuestionIndex].answer;
-            const optionsContainer = document.getElementById('options-container');
-
-            Array.from(optionsContainer.children).forEach(button => {
-                button.disabled = true;
-                if (button.dataset.option === correctAnswer) {
-                    button.classList.add('correct');
-                } else if (button.dataset.option === selectedAnswer) {
-                    button.classList.add('incorrect');
+            // Fecha o modal ao clicar fora do conteúdo
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
                 }
+            }
+            
+            // --- Lógica para Animação de Scroll na Timeline ---
+            const timelineItems = document.querySelectorAll('.timeline-item');
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Para a animação não repetir
+                    }
+                });
+            }, {
+                threshold: 0.5 // A animação dispara quando 50% do item estiver visível
             });
 
-            if (selectedAnswer === correctAnswer) {
-                score++;
-                quizFeedback.textContent = 'Correto!';
-                quizFeedback.classList.remove('text-red-600');
-                quizFeedback.classList.add('text-green-600');
-            } else {
-                quizFeedback.textContent = 'Incorreto. A resposta correta é ' + correctAnswer + '.';
-                quizFeedback.classList.remove('text-green-600');
-                quizFeedback.classList.add('text-red-600');
+            timelineItems.forEach(item => {
+                observer.observe(item);
+            });
+            
+
+            // --- Lógica do Joguinho "Pegue os Corações" ---
+            const gameArea = document.getElementById('game-area');
+            const scoreDisplay = document.getElementById('score');
+            const timeDisplay = document.getElementById('time');
+            const startBtn = document.getElementById('game-start-btn');
+            
+            let score = 0;
+            let timeLeft = 30;
+            let gameInterval;
+            let heartInterval;
+            let isGameRunning = false;
+            
+            const heartEmojis = ['❤️', '💖', '💗', '💕', '💓'];
+
+            // Função para iniciar o jogo
+            function startGame() {
+                if (isGameRunning) return; // Impede múltiplos inícios
+                isGameRunning = true;
+                score = 0;
+                timeLeft = 30;
+                scoreDisplay.textContent = score;
+                timeDisplay.textContent = timeLeft + 's';
+                startBtn.disabled = true;
+                startBtn.textContent = 'Jogando...';
+                
+                // Inicia o contador de tempo
+                gameInterval = setInterval(() => {
+                    timeLeft--;
+                    timeDisplay.textContent = timeLeft + 's';
+                    if (timeLeft <= 0) {
+                        endGame();
+                    }
+                }, 1000);
+
+                // Cria corações em intervalos
+                heartInterval = setInterval(createHeart, 500); // Cria um coração a cada 0.5s
+            }
+            
+            // Função para terminar o jogo
+            function endGame() {
+                clearInterval(gameInterval);
+                clearInterval(heartInterval);
+                isGameRunning = false;
+                startBtn.disabled = false;
+                startBtn.textContent = 'Jogar Novamente!';
+                alert(`Fim de jogo! Sua pontuação foi: ${score} corações!`);
             }
 
-            if (currentQuestionIndex < questions.length - 1) {
-                nextQuestionBtn.style.display = 'block';
-            } else {
-                nextQuestionBtn.style.display = 'none';
-                setTimeout(showResult, 1000);
+            // Função para criar um coração
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-game');
+                
+                // Escolhe um emoji de coração aleatório
+                heart.innerText = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                
+                // Posição horizontal aleatória
+                const x = Math.random() * (gameArea.clientWidth - 40); // -40 para não sair da tela
+                heart.style.left = `${x}px`;
+                
+                // Define o ponto inicial no fundo da área
+                heart.style.bottom = '-30px'; 
+                
+                gameArea.appendChild(heart);
+                
+                // Remove o coração do DOM após a animação
+                heart.addEventListener('animationend', () => {
+                    heart.remove();
+                });
+
+                // Adiciona evento de clique para marcar pontos
+                heart.addEventListener('click', () => {
+                    score++;
+                    scoreDisplay.textContent = score;
+                    heart.remove(); // Remove o coração imediatamente ao clicar
+                });
             }
-        }
+            
+            // Event listener para o botão de início
+            startBtn.addEventListener('click', startGame);
 
-        function nextQuestion() {
-            currentQuestionIndex++;
-            renderQuestion();
-        }
-
-        function showResult() {
-            questionDisplay.innerHTML = `
-                <p class="text-2xl font-bold text-mainGold mb-4">Questionário Concluído!</p>
-                <p class="text-xl">Você acertou ${score} de ${questions.length} perguntas.</p>
-            `;
-            quizFeedback.textContent = '';
-            quizScore.textContent = '';
-            nextQuestionBtn.style.display = 'none';
-            restartQuizBtn.style.display = 'block';
-        }
-
-        function restartQuiz() {
-            currentQuestionIndex = 0;
-            score = 0;
-            restartQuizBtn.style.display = 'none';
-            renderQuestion();
-        }
-
-        nextQuestionBtn.addEventListener('click', nextQuestion);
-        restartQuizBtn.addEventListener('click', restartQuiz);
-
-        renderQuestion();
+        });
     </script>
-
 </body>
 </html>
