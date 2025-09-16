@@ -3,653 +3,466 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feliz Dia dos Namorados, Ana Beatriz!</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>Ficha Cadastral de Paciente</title>
+    <!-- Tailwind CSS para estilização -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Favicon para um toque profissional -->
+    <link rel="icon" href="https://placehold.co/32x32/3b82f6/ffffff?text=P" type="image/png">
     <style>
-        /* --- Configurações Globais e Variáveis de Cor --- */
-        :root {
-            --cor-principal: #fde2e4; /* Rosa claro */
-            --cor-secundaria: #fff1e6; /* Creme/Branco pêssego */
-            --cor-acento: #eaddcf;   /* Bege suave */
-            --cor-texto: #574152;   /* Roxo escuro/Vinho */
-            --cor-destaque: #c6a9b4;  /* Lilás/Rosa antigo */
-            --font-titulo: 'Dancing Script', cursive;
-            --font-subtitulo: 'Playfair Display', serif;
-            --font-corpo: 'Lato', sans-serif;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Estilo para um scroll mais suave */
         html {
             scroll-behavior: smooth;
         }
-
-        body {
-            font-family: var(--font-corpo);
-            background-color: var(--cor-secundaria);
-            color: var(--cor-texto);
-            line-height: 1.6;
+        /* Estilo para os placeholders dos campos de texto */
+        ::placeholder {
+            color: #9ca3af;
         }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* --- Animações --- */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes popUp {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes floatUp {
-            from { transform: translateY(0); opacity: 1; }
-            to { transform: translateY(-150px); opacity: 0; }
-        }
-
-
-        /* --- Cabeçalho --- */
-        .header {
-            text-align: center;
-            padding: 5rem 2rem;
-            background: linear-gradient(135deg, var(--cor-principal), var(--cor-acento));
-            border-bottom-left-radius: 50% 20%;
-            border-bottom-right-radius: 50% 20%;
-        }
-
-        .header h1 {
-            font-family: var(--font-titulo);
-            font-size: 3.5rem;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        /* --- Seções e Títulos --- */
-        section {
-            padding: 4rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-family: var(--font-subtitulo);
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '💕';
-            font-size: 1rem;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            margin-left: 10px;
-            opacity: 0.8;
-        }
-        
-        /* --- Mensagem Romântica --- */
-        #mensagem {
-            text-align: center;
-        }
-
-        #mensagem p {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-            font-style: italic;
-            color: #6d5d6e;
-        }
-
-        /* --- Galeria de Fotos --- */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .gallery-item {
-            overflow: hidden;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            position: relative;
-            cursor: pointer;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-
-        .gallery-item .overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(87, 65, 82, 0.7);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            font-family: var(--font-subtitulo);
-            transform: translateY(100%);
-            transition: transform 0.5s ease;
-        }
-        
-        .gallery-item:hover .overlay {
-            transform: translateY(0);
-        }
-
-        /* --- Linha do Tempo --- */
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 3px;
-            background-color: var(--cor-destaque);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -1.5px;
-        }
-
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            width: 50%;
-            opacity: 0; /* Inicia invisível para animação de scroll */
-            transform: translateY(50px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        
-        .timeline-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .timeline-item.left {
-            left: 0;
-        }
-
-        .timeline-item.right {
-            left: 50%;
-        }
-
-        /* Círculos na linha do tempo */
-        .timeline-item::after {
-            content: '💖';
-            position: absolute;
-            width: 25px;
-            height: 25px;
-            right: -14px;
-            top: 25px;
-            border-radius: 50%;
-            z-index: 1;
-            font-size: 1.5rem;
-            line-height: 1;
-            text-align: center;
-        }
-
-        .timeline-item.right::after {
-            left: -11px;
-        }
-        
-        .timeline-content {
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            position: relative;
-        }
-        
-        .timeline-item.left .timeline-content {
-           text-align: right;
-        }
-
-        .timeline-content h3 {
-            font-family: var(--font-subtitulo);
-            color: var(--cor-destaque);
-        }
-
-        /* --- Botão de Surpresa --- */
-        .surprise-container {
-            text-align: center;
-            margin-top: 3rem;
-        }
-
-        #surprise-btn {
-            background-color: var(--cor-principal);
-            color: var(--cor-texto);
-            border: 2px solid var(--cor-destaque);
-            padding: 1rem 2rem;
-            font-family: var(--font-subtitulo);
-            font-size: 1.2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        #surprise-btn:hover {
-            background-color: var(--cor-destaque);
-            color: white;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px -10px var(--cor-destaque);
-        }
-
-        /* --- Modal de Surpresa --- */
-        .modal {
+        /* Estilo para ocultar os botões de rádio originais */
+        .custom-radio {
             display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.6);
         }
-
-        .modal-content {
-            background: linear-gradient(135deg, var(--cor-secundaria), white);
-            margin: 15% auto;
-            padding: 40px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 600px;
-            border-radius: 20px;
-            text-align: center;
-            position: relative;
-            animation: popUp 0.5s ease;
-        }
-
-        .close-btn {
-            color: #aaa;
-            position: absolute;
-            top: 15px;
-            right: 25px;
-            font-size: 28px;
-            font-weight: bold;
+        /* Estilizando a label para parecer um botão */
+        .custom-radio + label {
             cursor: pointer;
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            font-weight: 500;
         }
-        
-        .modal-content h3 {
-           font-family: var(--font-titulo);
-           font-size: 2.5rem;
-           color: var(--cor-destaque);
-           margin-bottom: 1rem;
-        }
-
-        .modal-content p {
-            font-style: italic;
-            font-size: 1.1rem;
-        }
-
-        /* --- Joguinho Romântico --- */
-        #game-section {
-            background-color: var(--cor-acento);
-            border-top: 5px solid white;
-            padding-bottom: 2rem;
-        }
-        
-        .game-intro {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .game-intro p {
-            max-width: 600px;
-            margin: 0.5rem auto 1.5rem;
-        }
-
-        #game-start-btn {
-            background-color: var(--cor-destaque);
+        /* Estilo quando o rádio está selecionado */
+        .custom-radio:checked + label {
+            background-color: #3b82f6;
             color: white;
-            padding: 0.8rem 1.8rem;
-            font-size: 1rem;
-            border-radius: 30px;
+            border-color: #3b82f6;
+        }
+         /* Estilo para customizar checkboxes */
+        .custom-checkbox-label {
+            display: flex;
+            align-items: center;
             cursor: pointer;
-            border: none;
-            transition: background-color 0.3s;
+            background-color: #f9fafb;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s ease-in-out;
         }
-        #game-start-btn:hover {
-            background-color: var(--cor-texto);
+        .custom-checkbox-label:hover {
+            border-color: #9ca3af;
         }
-
-        #game-area {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            height: 400px;
-            background: linear-gradient(to bottom, #ffc3a0, #ffafbd); /* Gradiente romântico */
-            border-radius: 20px;
-            margin: 0 auto;
-            overflow: hidden;
-            border: 5px solid white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        input[type="checkbox"]:checked + .custom-checkbox-label {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+            color: #1e40af;
         }
-
-        #game-stats {
-            text-align: center;
-            font-size: 1.2rem;
-            font-family: var(--font-subtitulo);
-            margin-top: 1rem;
+        input[type="checkbox"] {
+            display: none;
         }
-
-        .heart-game {
-            position: absolute;
-            font-size: 2rem; /* Tamanho do coração */
-            cursor: pointer;
-            user-select: none;
-            animation: floatUp 3s linear forwards; /* Duração do coração na tela */
-            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));
-        }
-
-
-        /* --- Responsividade --- */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.5rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            /* Ajustes na Linha do Tempo para telas menores */
-            .timeline::after {
-                left: 31px;
-            }
-
-            .timeline-item {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-            
-            .timeline-item.left, .timeline-item.right {
-                left: 0;
-            }
-            
-            .timeline-item.left .timeline-content, .timeline-item.right .timeline-content {
-                text-align: left;
-            }
-
-            .timeline-item::after {
-                left: 15px;
-            }
-
-            .modal-content {
-                width: 90%;
-                margin: 25% auto;
-            }
+        .checkbox-text {
+             margin-left: 0.5rem;
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
 
-    <!-- Cabeçalho com Título Principal -->
-    <header class="header">
-        <h1>Feliz Dia dos Namorados, Ana Beatriz 💖</h1>
-    </header>
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <!-- Cabeçalho da página -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Ficha Cadastral de Paciente</h1>
+            <p class="text-gray-600 mt-2">Preencha os campos abaixo com as informações do paciente.</p>
+        </header>
 
-    <main>
-        <!-- Seção da Mensagem Romântica -->
-        <section id="mensagem">
-            <div class="container">
-                <h2 class="section-title">Para o amor da minha vida</h2>
-                <p>
-                    Meu amor, hoje não é apenas mais um dia no calendário. É o dia de celebrar a sorte que eu tenho por ter você ao meu lado. Cada risada, cada abraço, cada momento que passamos juntos se transformou na base da minha felicidade. Você trouxe cores para o meu mundo que eu nem sabia que existiam. Obrigado por ser minha parceira, minha melhor amiga e meu grande amor. Que a nossa história continue sendo escrita com capítulos de muito carinho, respeito e cumplicidade. Eu te amo mais do que as palavras podem expressar.
-                </p>
-            </div>
-        </section>
+        <!-- Formulário principal -->
+        <form id="patient-form" class="bg-white p-6 md:p-8 rounded-lg shadow-lg space-y-8">
 
-        <!-- Seção da Galeria de Fotos -->
-        <section id="galeria">
-            <div class="container">
-                <h2 class="section-title">Nossos Momentos</h2>
-                <div class="gallery-grid">
-                    <!-- Item 1 -->
-                    <div class="gallery-item">
-                        <img src="https://i.postimg.cc/KjhQCz0S/IMG-20230929-WA0114.jpg" alt="Foto representando o primeiro beijo" onerror="this.onerror=null;this.src='https://placehold.co/400x400/fde2e4/574152?text=Nosso+Primeiro+Beijo';">
-                         <div class="overlay">O beijo que mudou tudo</div>
+            <!-- Seção 1: Identificação do Paciente -->
+            <fieldset class="border-t-4 border-blue-500 rounded-t-md pt-4">
+                <legend class="text-xl font-semibold text-gray-700 px-2">1. Identificação do Paciente</legend>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <!-- Nome Completo -->
+                    <div class="md:col-span-2">
+                        <label for="nome" class="block text-sm font-medium text-gray-700">Nome Completo</label>
+                        <input type="text" id="nome" name="nome" placeholder="Digite o nome completo" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    <!-- Item 2 -->
-                    <div class="gallery-item">
-                        <img src="https://i.postimg.cc/HssPmJpd/20230929-184825.jpg" alt="Foto do primeiro encontro" onerror="this.onerror=null;this.src='https://placehold.co/400x400/eaddcf/574152?text=Primeiro+Encontro';">
-                        <div class="overlay">Onde tudo começou</div>
+                    <!-- Filiação -->
+                    <div class="md:col-span-2">
+                        <label for="filiacao" class="block text-sm font-medium text-gray-700">Filiação (Nome da Mãe/Pai)</label>
+                        <input type="text" id="filiacao" name="filiacao" placeholder="Digite o nome da mãe e/ou do pai" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    <!-- Item 3 -->
-                    <div class="gallery-item">
-                        <img src="https://i.postimg.cc/7ZB5RWKq/20231122-113925.jpg" alt="Foto de um momento casual" onerror="this.onerror=null;this.src='https://placehold.co/400x400/c6a9b4/fff1e6?text=Um+dia+qualquer';">
-                        <div class="overlay">Simplesmente nós</div>
+                    <!-- CPF -->
+                    <div>
+                        <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
+                        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    <!-- Item 4 -->
-                    <div class="gallery-item">
-                        <img src="https://i.postimg.cc/RFSb0qc7/20231231-203239.jpg" alt="Foto de uma comemoração" onerror="this.onerror=null;this.src='https://placehold.co/400x400/fff1e6/574152?text=Comemorando';">
-                        <div class="overlay">Celebrando a vida</div>
+                     <!-- Telefone -->
+                     <div>
+                        <label for="telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
+                        <input type="tel" id="telefone" name="telefone" placeholder="(00) 90000-0000" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <!-- Endereço -->
+                    <div class="md:col-span-2">
+                        <label for="endereco" class="block text-sm font-medium text-gray-700">Endereço Completo</label>
+                        <input type="text" id="endereco" name="endereco" placeholder="Rua, Número, Bairro, Cidade - Estado, CEP" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <!-- Idade -->
+                    <div>
+                        <label for="idade" class="block text-sm font-medium text-gray-700">Idade</label>
+                        <input type="number" id="idade" name="idade" placeholder="Apenas números" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <!-- Sexo -->
+                    <div>
+                        <label for="sexo" class="block text-sm font-medium text-gray-700">Sexo</label>
+                        <select id="sexo" name="sexo" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Selecione</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                    <!-- Peso -->
+                    <div>
+                        <label for="peso" class="block text-sm font-medium text-gray-700">Peso (kg)</label>
+                        <input type="number" step="0.1" id="peso" name="peso" placeholder="Ex: 70.5" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <!-- Altura -->
+                    <div>
+                        <label for="altura" class="block text-sm font-medium text-gray-700">Altura (m)</label>
+                        <input type="number" step="0.01" id="altura" name="altura" placeholder="Ex: 1.75" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <!-- IMC -->
+                    <div class="md:col-span-2">
+                        <label for="imc" class="block text-sm font-medium text-gray-700">IMC (Índice de Massa Corporal)</label>
+                        <input type="text" id="imc" name="imc" placeholder="Calculado automaticamente" readonly class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none cursor-not-allowed">
+                    </div>
+                    <!-- Ocupação -->
+                    <div class="md:col-span-2">
+                        <label for="ocupacao" class="block text-sm font-medium text-gray-700">Ocupação/Profissão</label>
+                        <input type="text" id="ocupacao" name="ocupacao" placeholder="Qual a profissão atual?" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <!-- Etnia -->
+                    <div>
+                        <label for="etnia" class="block text-sm font-medium text-gray-700">Etnia/Cor</label>
+                        <select id="etnia" name="etnia" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Selecione uma opção</option>
+                            <option value="Branca">Branca</option>
+                            <option value="Preta">Preta</option>
+                            <option value="Parda">Parda</option>
+                            <option value="Amarela">Amarela</option>
+                            <option value="Indígena">Indígena</option>
+                            <option value="Não declarada">Não desejo declarar</option>
+                        </select>
+                    </div>
+                    <!-- Tipagem Sanguínea -->
+                    <div>
+                        <label for="tipagem_sanguinea" class="block text-sm font-medium text-gray-700">Tipagem Sanguínea</label>
+                        <select id="tipagem_sanguinea" name="tipagem_sanguinea" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Selecione</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="Não sei">Não sei</option>
+                        </select>
+                    </div>
+                     <!-- Naturalidade -->
+                     <div>
+                        <label for="naturalidade" class="block text-sm font-medium text-gray-700">Naturalidade (Estado)</label>
+                        <input type="text" id="naturalidade" name="naturalidade" placeholder="Ex: São Paulo" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <!-- Cidade Natal -->
+                    <div>
+                        <label for="cidade_natal" class="block text-sm font-medium text-gray-700">Cidade Natal</label>
+                        <input type="text" id="cidade_natal" name="cidade_natal" placeholder="Ex: Campinas" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <!-- Escolaridade -->
+                    <div>
+                        <label for="escolaridade" class="block text-sm font-medium text-gray-700">Escolaridade</label>
+                         <select id="escolaridade" name="escolaridade" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Selecione o grau</option>
+                            <option value="Analfabeto">Analfabeto</option>
+                            <option value="Ensino Fundamental Incompleto">Ensino Fundamental Incompleto</option>
+                            <option value="Ensino Fundamental Completo">Ensino Fundamental Completo</option>
+                            <option value="Ensino Médio Incompleto">Ensino Médio Incompleto</option>
+                            <option value="Ensino Médio Completo">Ensino Médio Completo</option>
+                            <option value="Ensino Superior Incompleto">Ensino Superior Incompleto</option>
+                            <option value="Ensino Superior Completo">Ensino Superior Completo</option>
+                            <option value="Pós-graduação">Pós-graduação</option>
+                        </select>
+                    </div>
+                    <!-- Religião -->
+                    <div>
+                        <label for="religiao" class="block text-sm font-medium text-gray-700">Religião</label>
+                        <input type="text" id="religiao" name="religiao" placeholder="Opcional" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
                 </div>
-            </div>
-        </section>
+            </fieldset>
 
-        <!-- Seção da Linha do Tempo -->
-        <section id="timeline-section">
-            <div class="container">
-                <h2 class="section-title">Nossa História</h2>
-                <div class="timeline">
-                    <!-- Cada item é um .timeline-item -->
-                    <div class="timeline-item left">
-                        <div class="timeline-content">
-                            <h3>Quando nos conhecemos</h3>
-                            <p>Um dia que mudou tudo. Mal sabia eu que tinha acabado de encontrar a pessoa mais incrível do mundo.</p>
-                        </div>
+            <!-- Seção 2: Histórico Social -->
+            <fieldset class="border-t-2 border-gray-200 pt-4">
+                <legend class="text-xl font-semibold text-gray-700 px-2">2. Histórico Social</legend>
+                <div class="space-y-6 mt-4">
+                    <!-- Gerador de itens de histórico social -->
+                    <script>
+                        const socialHistoryItems = [
+                            { id: 'tabagismo', label: 'Tabagismo?', placeholder: 'Frequência / Quantidade', default: 'Não' },
+                            { id: 'etilismo', label: 'Etilismo?', placeholder: 'Frequência / Quantidade', default: 'Não' },
+                            { id: 'drogas_ilicitas', label: 'Uso de drogas ilícitas?', placeholder: 'Qual droga e frequência', default: 'Não' },
+                            { id: 'sedentarismo', label: 'Sedentarismo?', placeholder: 'Se não, qual atividade e frequência?', default: 'Sim' },
+                            { id: 'ingestao_sal', label: 'Ingestão elevada de sal?', placeholder: 'Descreva os hábitos alimentares', default: 'Não' },
+                            { id: 'transtorno_social', label: 'Possui transtorno social?', placeholder: 'Se sim, qual?', default: 'Não' }
+                        ];
+
+                        socialHistoryItems.forEach(item => {
+                            document.write(`
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                                    <span class="font-medium text-gray-700">${item.label}</span>
+                                    <div class="flex space-x-4">
+                                        <input type="radio" id="${item.id}_sim" name="${item.id}" value="Sim" class="custom-radio" ${item.default === 'Sim' ? 'checked' : ''}>
+                                        <label for="${item.id}_sim">Sim</label>
+                                        <input type="radio" id="${item.id}_nao" name="${item.id}" value="Não" class="custom-radio" ${item.default === 'Não' ? 'checked' : ''}>
+                                        <label for="${item.id}_nao">Não</label>
+                                    </div>
+                                    <input type="text" name="${item.id}_detalhes" placeholder="${item.placeholder}" class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                            `);
+                        });
+                    </script>
+                </div>
+            </fieldset>
+
+            <!-- Seção 3: Histórico Familiar -->
+            <fieldset class="border-t-2 border-gray-200 pt-4">
+                <legend class="text-xl font-semibold text-gray-700 px-2">3. Histórico Familiar</legend>
+                <p class="text-sm text-gray-500 mt-2 mb-4">Para cada condição, especifique o parentesco (ex: Pai, Avó materna, Tio paterno).</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 mt-4">
+                    <div class="flex items-center gap-4">
+                        <label for="familiar_cardiopatia" class="w-1/3 font-medium text-gray-700">Cardiopatia</label>
+                        <input type="text" id="familiar_cardiopatia" name="familiar_cardiopatia" placeholder="Parentesco" class="flex-grow px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    <div class="timeline-item right">
-                        <div class="timeline-content">
-                            <h3>Primeiro Encontro</h3>
-                            <p>O nervosismo, as risadas e a certeza de que algo especial estava florescendo entre nós.</p>
-                        </div>
+                     <div class="flex items-center gap-4">
+                        <label for="familiar_neoplasia" class="w-1/3 font-medium text-gray-700">Neoplasia</label>
+                        <input type="text" id="familiar_neoplasia" name="familiar_neoplasia" placeholder="Parentesco" class="flex-grow px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    <div class="timeline-item left">
-                        <div class="timeline-content">
-                            <h3>Primeiro Beijo</h3>
-                            <p>O momento em que o tempo parou e nossos corações falaram mais alto. Inesquecível.</p>
-                        </div>
+                    <div class="flex items-center gap-4">
+                        <label for="familiar_diabetes" class="w-1/3 font-medium text-gray-700">Diabetes</label>
+                        <input type="text" id="familiar_diabetes" name="familiar_diabetes" placeholder="Parentesco" class="flex-grow px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    <div class="timeline-item right">
-                        <div class="timeline-content">
-                            <h3>Pedido de Namoro</h3>
-                            <p>O "sim" mais importante e feliz da minha vida. O começo oficial da nossa jornada juntos.</p>
-                        </div>
+                    <div class="flex items-center gap-4">
+                        <label for="familiar_drc" class="w-1/3 font-medium text-gray-700">DRC</label>
+                        <input type="text" id="familiar_drc" name="familiar_drc" placeholder="Parentesco" class="flex-grow px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <label for="familiar_respiratorio" class="w-1/3 font-medium text-gray-700">Doença Respiratória</label>
+                        <input type="text" id="familiar_respiratorio" name="familiar_respiratorio" placeholder="Parentesco" class="flex-grow px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
                 </div>
-                <div class="surprise-container">
-                    <button id="surprise-btn">Clique aqui para uma surpresa 💌</button>
+            </fieldset>
+
+            <!-- Seção 4: Histórico de Medicamentos -->
+            <fieldset class="border-t-2 border-gray-200 pt-4">
+                <legend class="text-xl font-semibold text-gray-700 px-2">4. Histórico de Medicamentos</legend>
+                <div class="grid grid-cols-1 gap-6 mt-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Classes de medicamentos que o paciente já usou (marque todas que se aplicam)</label>
+                        <div id="medicamentos-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                            <!-- Checkboxes de classes de medicamentos são gerados aqui -->
+                        </div>
+                    </div>
+                    <div>
+                        <label for="medicamentos_outros" class="block text-sm font-medium text-gray-700">Outros medicamentos ou detalhes</label>
+                        <textarea id="medicamentos_outros" name="medicamentos_outros" rows="2" class="block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Especifique outros medicamentos ou detalhes das classes selecionadas."></textarea>
+                    </div>
+                    <div>
+                        <label for="hipersensibilidade" class="block text-sm font-medium text-gray-700">Hipersensibilidade / Alergias</label>
+                        <textarea id="hipersensibilidade" name="hipersensibilidade" rows="3" class="block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Descreva qualquer alergia ou reação adversa a medicamentos conhecida."></textarea>
+                    </div>
+                </div>
+            </fieldset>
+            
+            <!-- Seção 5: Queixa Atual -->
+            <fieldset class="border-t-2 border-gray-200 pt-4">
+                <legend class="text-xl font-semibold text-gray-700 px-2">5. Queixa Atual</legend>
+                <div class="grid grid-cols-1 gap-6 mt-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Sintomas e queixas principais (marque todos que se aplicam)</label>
+                        <div id="queixas-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                             <!-- Checkboxes de queixas são gerados aqui -->
+                        </div>
+                    </div>
+                     <div>
+                        <label for="queixa_detalhes" class="block text-sm font-medium text-gray-700">Detalhes da Queixa Atual / Outras</label>
+                        <textarea id="queixa_detalhes" name="queixa_detalhes" rows="3" class="block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Descreva com mais detalhes os sintomas, quando começaram, intensidade, etc."></textarea>
+                    </div>
+                </div>
+            </fieldset>
+            
+            <!-- Ações do formulário -->
+            <div class="flex flex-col md:flex-row items-center justify-end gap-4 pt-4 border-t-2 border-gray-200">
+                 <button type="button" id="clear-form" class="w-full md:w-auto px-6 py-2.5 bg-gray-500 text-white font-medium text-sm leading-tight uppercase rounded-md shadow-md hover:bg-gray-600 hover:shadow-lg focus:bg-gray-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out">
+                    Limpar Ficha
+                </button>
+                <button type="button" id="export-excel" class="w-full md:w-auto px-6 py-2.5 bg-green-600 text-white font-medium text-sm leading-tight uppercase rounded-md shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">
+                    Exportar para Excel
+                </button>
+            </div>
+        </form>
+         <!-- Rodapé -->
+        <footer class="text-center mt-8 text-sm text-gray-500">
+            <p>&copy; 2024 Ficha Cadastral. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+    
+    <!-- Modal de confirmação -->
+    <div id="confirmation-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                    <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">Sucesso!</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500" id="modal-message"></p>
+                </div>
+                <div class="items-center px-4 py-3">
+                    <button id="close-modal" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                        OK
+                    </button>
                 </div>
             </div>
-        </section>
-
-        <!-- Seção do Joguinho Romântico -->
-        <section id="game-section">
-            <div class="container">
-                 <h2 class="section-title">Um Joguinho Para Você</h2>
-                 <div class="game-intro">
-                    <p>Agora, um pequeno desafio para se divertir. O objetivo é simples: clique no máximo de corações que conseguir antes que eles desapareçam! Vamos ver o quanto de amor você consegue pegar. ❤️</p>
-                    <button id="game-start-btn">Começar a Jogar!</button>
-                 </div>
-                 <div id="game-area"></div>
-                 <div id="game-stats">
-                     Pontuação: <span id="score">0</span> | Tempo: <span id="time">30</span>s
-                 </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Modal da Surpresa -->
-    <div id="surprise-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h3>Com todo o meu amor...</h3>
-            <p>
-                Se eu pudesse te dar uma coisa na vida,
-                eu te daria a capacidade de ver a si mesma através dos meus olhos.
-                Só então você perceberia o quão especial você é para mim.
-                <br/><br/>
-                <strong>Eu te amo.</strong>
-            </p>
         </div>
     </div>
 
-
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Populando Checkboxes Dinamicamente ---
+            const
+            medicamentosContainer = document.getElementById('medicamentos-container');
+            const queixasContainer = document.getElementById('queixas-container');
 
-            // --- Lógica para o Modal de Surpresa ---
-            const modal = document.getElementById('surprise-modal');
-            const btn = document.getElementById('surprise-btn');
-            const span = document.getElementsByClassName('close-btn')[0];
+            const classesMedicamentos = [
+                'Analgésicos', 'Anti-inflamatórios', 'Antibióticos', 'Antifúngicos', 'Antivirais', 'Anti-hipertensivos',
+                'Diuréticos', 'Antidiabéticos', 'Hipolipemiantes', 'Anticoagulantes', 'Broncodilatadores', 'Corticosteroides',
+                'Antiácidos', 'Antialérgicos', 'Antidepressivos', 'Ansiolíticos', 'Antipsicóticos', 'Anticonvulsivantes', 'Hormônios'
+            ];
 
-            // Abre o modal ao clicar no botão
-            btn.onclick = function() {
-                modal.style.display = 'block';
+            const queixasComuns = [
+                'Febre', 'Dor de cabeça', 'Tosse', 'Falta de ar', 'Dor no peito', 'Dor abdominal', 'Náusea/Vômito', 'Diarreia',
+                'Tontura', 'Fadiga', 'Dor nas costas', 'Dor de garganta', 'Coriza', 'Perda de peso', 'Insônia', 'Ansiedade'
+            ];
+
+            const createCheckbox = (item, groupName) => {
+                const id = `${groupName}_${item.replace(/ /g, '_').toLowerCase()}`;
+                return `
+                    <div>
+                        <input type="checkbox" id="${id}" name="${groupName}" value="${item}">
+                        <label for="${id}" class="custom-checkbox-label">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12.6111L8.92308 17.5L20 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span class="checkbox-text text-sm">${item}</span>
+                        </label>
+                    </div>
+                `;
+            };
+
+            classesMedicamentos.forEach(item => medicamentosContainer.innerHTML += createCheckbox(item, 'medicamento_classe'));
+            queixasComuns.forEach(item => queixasContainer.innerHTML += createCheckbox(item, 'queixa_item'));
+
+            // --- Lógica do Formulário ---
+            const pesoInput = document.getElementById('peso');
+            const alturaInput = document.getElementById('altura');
+            const imcInput = document.getElementById('imc');
+            const exportButton = document.getElementById('export-excel');
+            const clearButton = document.getElementById('clear-form');
+            const form = document.getElementById('patient-form');
+            
+            const modal = document.getElementById('confirmation-modal');
+            const closeModalButton = document.getElementById('close-modal');
+            const modalMessage = document.getElementById('modal-message');
+
+            function calculateIMC() {
+                const peso = parseFloat(pesoInput.value);
+                const altura = parseFloat(alturaInput.value);
+                imcInput.value = (peso > 0 && altura > 0) ? (peso / (altura * altura)).toFixed(2) : '';
             }
 
-            // Fecha o modal ao clicar no 'x'
-            span.onclick = function() {
-                modal.style.display = 'none';
-            }
+            pesoInput.addEventListener('input', calculateIMC);
+            alturaInput.addEventListener('input', calculateIMC);
 
-            // Fecha o modal ao clicar fora do conteúdo
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = 'none';
+            function showModal(message) {
+                modalMessage.textContent = message;
+                modal.classList.remove('hidden');
+            }
+            
+            closeModalButton.addEventListener('click', () => modal.classList.add('hidden'));
+
+            exportButton.addEventListener('click', function() {
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                if (!data.nome || data.nome.trim() === '') {
+                    showModal('Por favor, preencha pelo menos o nome do paciente para exportar.');
+                    // Configura modal para erro
+                    return;
                 }
-            }
-            
-            // --- Lógica para Animação de Scroll na Timeline ---
-            const timelineItems = document.querySelectorAll('.timeline-item');
 
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // Para a animação não repetir
-                    }
-                });
-            }, {
-                threshold: 0.5 // A animação dispara quando 50% do item estiver visível
+                const getCheckedValues = (name) => Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value).join('; ');
+                
+                const classesUsadas = getCheckedValues('medicamento_classe');
+                const queixasSelecionadas = getCheckedValues('queixa_item');
+
+                const headers = [
+                    'Nome', 'Filiação', 'CPF', 'Telefone', 'Endereço', 'Idade', 'Sexo', 'Peso (kg)', 'Altura (m)', 'IMC', 
+                    'Ocupação', 'Etnia/Cor', 'Tipagem Sanguínea', 'Naturalidade', 'Cidade Natal', 'Escolaridade', 'Religião', 
+                    'Tabagismo', 'Tabagismo Detalhes', 'Etilismo', 'Etilismo Detalhes', 'Drogas Ilicitas', 'Drogas Ilicitas Detalhes',
+                    'Sedentarismo', 'Sedentarismo Detalhes', 'Ingestao Elevada Sal', 'Ingestao Sal Detalhes', 'Transtorno Social', 'Transtorno Social Detalhes',
+                    'Hist. Familiar: Cardiopatia', 'Hist. Familiar: Neoplasia', 'Hist. Familiar: Diabetes', 'Hist. Familiar: DRC', 'Hist. Familiar: Doença Respiratória',
+                    'Classes de Medicamentos Usados', 'Outros Medicamentos', 'Hipersensibilidade', 
+                    'Queixas Selecionadas', 'Detalhes da Queixa'
+                ];
+
+                const values = [
+                    data.nome, data.filiacao, data.cpf, data.telefone, data.endereco, data.idade, data.sexo, data.peso, data.altura, data.imc,
+                    data.ocupacao, data.etnia, data.tipagem_sanguinea, data.naturalidade, data.cidade_natal, data.escolaridade, data.religiao,
+                    data.tabagismo, data.tabagismo_detalhes, data.etilismo, data.etilismo_detalhes, data.drogas_ilicitas, data.drogas_ilicitas_detalhes,
+                    data.sedentarismo, data.sedentarismo_detalhes, data.ingestao_sal, data.ingestao_sal_detalhes, data.transtorno_social, data.transtorno_social_detalhes,
+                    data.familiar_cardiopatia, data.familiar_neoplasia, data.familiar_diabetes, data.familiar_drc, data.familiar_respiratorio,
+                    classesUsadas, data.medicamentos_outros, data.hipersensibilidade,
+                    queixasSelecionadas, data.queixa_detalhes
+                ];
+
+                const csvRow = values.map(value => {
+                    const strValue = String(value || '');
+                    return `"${strValue.replace(/"/g, '""')}"`;
+                }).join(',');
+
+                const csvContent = "data:text/csv;charset=utf-8," + headers.join(',') + '\n' + csvRow;
+
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                
+                const fileName = `ficha_paciente_${(data.nome.replace(/ /g, '_') || 'novo_paciente').toLowerCase()}.csv`;
+                link.setAttribute("download", fileName);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                showModal(`O arquivo "${fileName}" foi gerado e o download deve começar em breve.`);
+                // Configura modal para sucesso
             });
-
-            timelineItems.forEach(item => {
-                observer.observe(item);
+            
+            clearButton.addEventListener('click', function() {
+                form.reset();
+                calculateIMC();
+                showModal('O formulário foi limpo com sucesso.');
             });
-            
-
-            // --- Lógica do Joguinho "Pegue os Corações" ---
-            const gameArea = document.getElementById('game-area');
-            const scoreDisplay = document.getElementById('score');
-            const timeDisplay = document.getElementById('time');
-            const startBtn = document.getElementById('game-start-btn');
-            
-            let score = 0;
-            let timeLeft = 30;
-            let gameInterval;
-            let heartInterval;
-            let isGameRunning = false;
-            
-            const heartEmojis = ['❤️', '💖', '💗', '💕', '💓'];
-
-            // Função para iniciar o jogo
-            function startGame() {
-                if (isGameRunning) return; // Impede múltiplos inícios
-                isGameRunning = true;
-                score = 0;
-                timeLeft = 30;
-                scoreDisplay.textContent = score;
-                timeDisplay.textContent = timeLeft + 's';
-                startBtn.disabled = true;
-                startBtn.textContent = 'Jogando...';
-                
-                // Inicia o contador de tempo
-                gameInterval = setInterval(() => {
-                    timeLeft--;
-                    timeDisplay.textContent = timeLeft + 's';
-                    if (timeLeft <= 0) {
-                        endGame();
-                    }
-                }, 1000);
-
-                // Cria corações em intervalos
-                heartInterval = setInterval(createHeart, 500); // Cria um coração a cada 0.5s
-            }
-            
-            // Função para terminar o jogo
-            function endGame() {
-                clearInterval(gameInterval);
-                clearInterval(heartInterval);
-                isGameRunning = false;
-                startBtn.disabled = false;
-                startBtn.textContent = 'Jogar Novamente!';
-                alert(`Fim de jogo! Sua pontuação foi: ${score} corações!`);
-            }
-
-            // Função para criar um coração
-            function createHeart() {
-                const heart = document.createElement('div');
-                heart.classList.add('heart-game');
-                
-                // Escolhe um emoji de coração aleatório
-                heart.innerText = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-                
-                // Posição horizontal aleatória
-                const x = Math.random() * (gameArea.clientWidth - 40); // -40 para não sair da tela
-                heart.style.left = `${x}px`;
-                
-                // Define o ponto inicial no fundo da área
-                heart.style.bottom = '-30px'; 
-                
-                gameArea.appendChild(heart);
-                
-                // Remove o coração do DOM após a animação
-                heart.addEventListener('animationend', () => {
-                    heart.remove();
-                });
-
-                // Adiciona evento de clique para marcar pontos
-                heart.addEventListener('click', () => {
-                    score++;
-                    scoreDisplay.textContent = score;
-                    heart.remove(); // Remove o coração imediatamente ao clicar
-                });
-            }
-            
-            // Event listener para o botão de início
-            startBtn.addEventListener('click', startGame);
-
         });
     </script>
 </body>
 </html>
+
