@@ -1,468 +1,432 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ficha Cadastral de Paciente</title>
-    <!-- Tailwind CSS para estilização -->
+    <title>Guia PICS - Versão Final</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Favicon para um toque profissional -->
-    <link rel="icon" href="https://placehold.co/32x32/3b82f6/ffffff?text=P" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilo para um scroll mais suave */
-        html {
-            scroll-behavior: smooth;
+        :root {
+            --bg-color: #f1f5f9; /* slate-100 */
+            --text-color: #0f172a; /* slate-900 */
+            --card-bg-color: #ffffff;
+            --subtle-text-color: #64748b; /* slate-500 */
+            --border-color: #e2e8f0; /* slate-200 */
+            --shadow-color: rgba(149, 157, 165, 0.1);
+            --teal-500: #14b8a6;
         }
-        /* Estilo para os placeholders dos campos de texto */
-        ::placeholder {
-            color: #9ca3af;
+        html.dark {
+            --bg-color: #020617; /* slate-950 */
+            --text-color: #e2e8f0; /* slate-200 */
+            --card-bg-color: #0f172a; /* slate-900 */
+            --subtle-text-color: #94a3b8; /* slate-400 */
+            --border-color: #1e293b; /* slate-800 */
+            --shadow-color: rgba(0, 0, 0, 0.2);
         }
-        /* Estilo para ocultar os botões de rádio originais */
-        .custom-radio {
-            display: none;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.4s, color 0.4s;
         }
-        /* Estilizando a label para parecer um botão */
-        .custom-radio + label {
-            cursor: pointer;
-            padding: 0.5rem 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
-            font-weight: 500;
+        .page-section { display: none; animation: fadeIn 0.6s ease-in-out; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .card-base {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 1.25rem;
+            box-shadow: 0 8px 24px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        /* Estilo quando o rádio está selecionado */
-        .custom-radio:checked + label {
-            background-color: #3b82f6;
-            color: white;
-            border-color: #3b82f6;
+        .card-base:hover { transform: translateY(-5px); box-shadow: 0 12px 32px var(--shadow-color); }
+        .card-header-gradient { background-image: linear-gradient(135deg, var(--gradient-from), var(--gradient-to)); }
+        
+        .nav-container { position: relative; }
+        .nav-indicator {
+            position: absolute; bottom: 4px; height: 4px; width: 40px;
+            background-color: var(--teal-500); border-radius: 2px;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-         /* Estilo para customizar checkboxes */
-        .custom-checkbox-label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            background-color: #f9fafb;
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            border: 1px solid #e5e7eb;
-            transition: all 0.2s ease-in-out;
+        .nav-btn.active i, .nav-btn.active span { color: var(--teal-500); }
+        
+        details > summary { list-style: none; } details > summary::-webkit-details-marker { display: none; }
+        details[open] summary .arrow-icon { transform: rotate(90deg); }
+        .arrow-icon { transition: transform 0.3s ease; }
+
+        .memory-card {
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .custom-checkbox-label:hover {
-            border-color: #9ca3af;
+        .memory-card.flipped {
+            transform: rotateY(180deg);
         }
-        input[type="checkbox"]:checked + .custom-checkbox-label {
-            background-color: #eff6ff;
-            border-color: #3b82f6;
-            color: #1e40af;
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
-        input[type="checkbox"] {
-            display: none;
+        .card-back {
+            transform: rotateY(180deg);
         }
-        .checkbox-text {
-             margin-left: 0.5rem;
-        }
+
+        .drop-zone { border: 2px dashed var(--border-color); transition: background-color 0.3s, border-color 0.3s; }
+        .drop-zone.drag-over { background-color: rgba(20, 184, 166, 0.1); border-color: var(--teal-500); }
+        .drop-zone.correct { border-color: #22c55e; background-color: rgba(34, 197, 94, 0.1); }
+        .draggable-item { cursor: grab; transition: transform 0.2s; }
+        .draggable-item:active { cursor: grabbing; transform: scale(1.1); }
+        .draggable-item.dropped { opacity: 0.5; cursor: not-allowed; }
     </style>
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+<body class="pb-28">
 
-    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
-        <!-- Cabeçalho da página -->
-        <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Ficha Cadastral de Paciente</h1>
-            <p class="text-gray-600 mt-2">Preencha os campos abaixo com as informações do paciente.</p>
+    <div id="app-container" class="max-w-4xl mx-auto p-4 md:p-6">
+        <header class="relative mb-10">
+            <div class="absolute top-0 right-0 flex items-center space-x-4">
+                 <button onclick="openAboutModal()" class="text-[var(--subtle-text-color)] hover:text-[var(--text-color)] transition-colors" aria-label="Sobre o projeto">
+                    <i class="fa-solid fa-info-circle text-2xl"></i>
+                </button>
+                <div class="flex items-center">
+                    <input type="checkbox" id="dark-mode-toggle" class="hidden">
+                    <label for="dark-mode-toggle" class="cursor-pointer flex items-center bg-slate-200 dark:bg-slate-800 rounded-full p-1 w-14 h-8">
+                        <div class="bg-white dark:bg-slate-900 w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ease-in-out flex items-center justify-center">
+                            <i class="fa-solid fa-sun text-yellow-500 text-sm hidden dark:inline"></i>
+                            <i class="fa-solid fa-moon text-slate-500 text-sm inline dark:hidden"></i>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div class="flex flex-col items-center text-center pt-4">
+                <img src="https://i.ibb.co/v6362q7/images-13.png" alt="Logo da Fametro" class="h-20 mb-4">
+                <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500">Projeto de Extensão</h1>
+                <p class="text-lg text-[var(--subtle-text-color)] mt-1">Farmácia 6° Período Turma B Noturno</p>
+            </div>
         </header>
 
-        <!-- Formulário principal -->
-        <form id="patient-form" class="bg-white p-6 md:p-8 rounded-lg shadow-lg space-y-8">
-
-            <!-- Seção 1: Identificação do Paciente -->
-            <fieldset class="border-t-4 border-blue-500 rounded-t-md pt-4">
-                <legend class="text-xl font-semibold text-gray-700 px-2">1. Identificação do Paciente</legend>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                    <!-- Nome Completo -->
-                    <div class="md:col-span-2">
-                        <label for="nome" class="block text-sm font-medium text-gray-700">Nome Completo</label>
-                        <input type="text" id="nome" name="nome" placeholder="Digite o nome completo" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        <main>
+            <!-- SEÇÃO FARMÁCIA -->
+            <div id="pharmacy-section" class="page-section space-y-6">
+                <div class="card-base p-6 relative overflow-hidden">
+                    <i class="fa-solid fa-pills absolute -right-4 -top-4 text-[120px] text-teal-500/10 dark:text-teal-500/5"></i>
+                    <div style="--gradient-from: #2dd4bf; --gradient-to: #06b6d4;" class="card-header-gradient flex items-center gap-4 mb-5 p-4 rounded-xl -m-2">
+                        <div class="bg-white/20 rounded-full w-12 h-12 flex items-center justify-center text-2xl text-white"><i class="fa-solid fa-pills"></i></div><h2 class="text-2xl font-bold text-white">Apresentação: Farmácia, o Pilar Científico</h2>
                     </div>
-                    <!-- Filiação -->
-                    <div class="md:col-span-2">
-                        <label for="filiacao" class="block text-sm font-medium text-gray-700">Filiação (Nome da Mãe/Pai)</label>
-                        <input type="text" id="filiacao" name="filiacao" placeholder="Digite o nome da mãe e/ou do pai" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <!-- CPF -->
-                    <div>
-                        <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
-                        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                     <!-- Telefone -->
-                     <div>
-                        <label for="telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
-                        <input type="tel" id="telefone" name="telefone" placeholder="(00) 90000-0000" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <!-- Endereço -->
-                    <div class="md:col-span-2">
-                        <label for="endereco" class="block text-sm font-medium text-gray-700">Endereço Completo</label>
-                        <input type="text" id="endereco" name="endereco" placeholder="Rua, Número, Bairro, Cidade - Estado, CEP" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <!-- Idade -->
-                    <div>
-                        <label for="idade" class="block text-sm font-medium text-gray-700">Idade</label>
-                        <input type="number" id="idade" name="idade" placeholder="Apenas números" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <!-- Sexo -->
-                    <div>
-                        <label for="sexo" class="block text-sm font-medium text-gray-700">Sexo</label>
-                        <select id="sexo" name="sexo" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">Selecione</option>
-                            <option value="Masculino">Masculino</option>
-                            <option value="Feminino">Feminino</option>
-                            <option value="Outro">Outro</option>
-                        </select>
-                    </div>
-                    <!-- Peso -->
-                    <div>
-                        <label for="peso" class="block text-sm font-medium text-gray-700">Peso (kg)</label>
-                        <input type="number" step="0.1" id="peso" name="peso" placeholder="Ex: 70.5" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <!-- Altura -->
-                    <div>
-                        <label for="altura" class="block text-sm font-medium text-gray-700">Altura (m)</label>
-                        <input type="number" step="0.01" id="altura" name="altura" placeholder="Ex: 1.75" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <!-- IMC -->
-                    <div class="md:col-span-2">
-                        <label for="imc" class="block text-sm font-medium text-gray-700">IMC (Índice de Massa Corporal)</label>
-                        <input type="text" id="imc" name="imc" placeholder="Calculado automaticamente" readonly class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none cursor-not-allowed">
-                    </div>
-                    <!-- Ocupação -->
-                    <div class="md:col-span-2">
-                        <label for="ocupacao" class="block text-sm font-medium text-gray-700">Ocupação/Profissão</label>
-                        <input type="text" id="ocupacao" name="ocupacao" placeholder="Qual a profissão atual?" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <!-- Etnia -->
-                    <div>
-                        <label for="etnia" class="block text-sm font-medium text-gray-700">Etnia/Cor</label>
-                        <select id="etnia" name="etnia" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">Selecione uma opção</option>
-                            <option value="Branca">Branca</option>
-                            <option value="Preta">Preta</option>
-                            <option value="Parda">Parda</option>
-                            <option value="Amarela">Amarela</option>
-                            <option value="Indígena">Indígena</option>
-                            <option value="Não declarada">Não desejo declarar</option>
-                        </select>
-                    </div>
-                    <!-- Tipagem Sanguínea -->
-                    <div>
-                        <label for="tipagem_sanguinea" class="block text-sm font-medium text-gray-700">Tipagem Sanguínea</label>
-                        <select id="tipagem_sanguinea" name="tipagem_sanguinea" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">Selecione</option>
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                            <option value="Não sei">Não sei</option>
-                        </select>
-                    </div>
-                     <!-- Naturalidade -->
-                     <div>
-                        <label for="naturalidade" class="block text-sm font-medium text-gray-700">Naturalidade (Estado)</label>
-                        <input type="text" id="naturalidade" name="naturalidade" placeholder="Ex: São Paulo" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <!-- Cidade Natal -->
-                    <div>
-                        <label for="cidade_natal" class="block text-sm font-medium text-gray-700">Cidade Natal</label>
-                        <input type="text" id="cidade_natal" name="cidade_natal" placeholder="Ex: Campinas" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <!-- Escolaridade -->
-                    <div>
-                        <label for="escolaridade" class="block text-sm font-medium text-gray-700">Escolaridade</label>
-                         <select id="escolaridade" name="escolaridade" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">Selecione o grau</option>
-                            <option value="Analfabeto">Analfabeto</option>
-                            <option value="Ensino Fundamental Incompleto">Ensino Fundamental Incompleto</option>
-                            <option value="Ensino Fundamental Completo">Ensino Fundamental Completo</option>
-                            <option value="Ensino Médio Incompleto">Ensino Médio Incompleto</option>
-                            <option value="Ensino Médio Completo">Ensino Médio Completo</option>
-                            <option value="Ensino Superior Incompleto">Ensino Superior Incompleto</option>
-                            <option value="Ensino Superior Completo">Ensino Superior Completo</option>
-                            <option value="Pós-graduação">Pós-graduação</option>
-                        </select>
-                    </div>
-                    <!-- Religião -->
-                    <div>
-                        <label for="religiao" class="block text-sm font-medium text-gray-700">Religião</label>
-                        <input type="text" id="religiao" name="religiao" placeholder="Opcional" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
+                    <p class="text-[var(--subtle-text-color)] leading-relaxed">A farmácia emerge como o pilar que conecta a ciência moderna à sabedoria das práticas integrativas. O farmacêutico é o profissional de saúde mais acessível à população, atuando como um guardião da segurança e eficácia, garantindo que a jornada do paciente pelo cuidado integral seja segura e bem-sucedida.</p>
                 </div>
-            </fieldset>
-
-            <!-- Seção 2: Histórico Social -->
-            <fieldset class="border-t-2 border-gray-200 pt-4">
-                <legend class="text-xl font-semibold text-gray-700 px-2">2. Histórico Social</legend>
-                <div class="space-y-6 mt-4">
-                    <!-- Gerador de itens de histórico social -->
-                    <script>
-                        const socialHistoryItems = [
-                            { id: 'tabagismo', label: 'Tabagismo?', placeholder: 'Frequência / Quantidade', default: 'Não' },
-                            { id: 'etilismo', label: 'Etilismo?', placeholder: 'Frequência / Quantidade', default: 'Não' },
-                            { id: 'drogas_ilicitas', label: 'Uso de drogas ilícitas?', placeholder: 'Qual droga e frequência', default: 'Não' },
-                            { id: 'sedentarismo', label: 'Sedentarismo?', placeholder: 'Se não, qual atividade e frequência?', default: 'Sim' },
-                            { id: 'ingestao_sal', label: 'Ingestão elevada de sal?', placeholder: 'Descreva os hábitos alimentares', default: 'Não' },
-                            { id: 'transtorno_social', label: 'Possui transtorno social?', placeholder: 'Se sim, qual?', default: 'Não' }
-                        ];
-
-                        socialHistoryItems.forEach(item => {
-                            document.write(`
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                                    <span class="font-medium text-gray-700">${item.label}</span>
-                                    <div class="flex space-x-4">
-                                        <input type="radio" id="${item.id}_sim" name="${item.id}" value="Sim" class="custom-radio" ${item.default === 'Sim' ? 'checked' : ''}>
-                                        <label for="${item.id}_sim">Sim</label>
-                                        <input type="radio" id="${item.id}_nao" name="${item.id}" value="Não" class="custom-radio" ${item.default === 'Não' ? 'checked' : ''}>
-                                        <label for="${item.id}_nao">Não</label>
-                                    </div>
-                                    <input type="text" name="${item.id}_detalhes" placeholder="${item.placeholder}" class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                </div>
-                            `);
-                        });
-                    </script>
-                </div>
-            </fieldset>
-
-            <!-- Seção 3: Histórico Familiar -->
-            <fieldset class="border-t-2 border-gray-200 pt-4">
-                <legend class="text-xl font-semibold text-gray-700 px-2">3. Histórico Familiar</legend>
-                <p class="text-sm text-gray-500 mt-2 mb-4">Para cada condição, especifique o parentesco (ex: Pai, Avó materna, Tio paterno).</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 mt-4">
-                    <div class="flex items-center gap-4">
-                        <label for="familiar_cardiopatia" class="w-1/3 font-medium text-gray-700">Cardiopatia</label>
-                        <input type="text" id="familiar_cardiopatia" name="familiar_cardiopatia" placeholder="Parentesco" class="flex-grow px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                     <div class="flex items-center gap-4">
-                        <label for="familiar_neoplasia" class="w-1/3 font-medium text-gray-700">Neoplasia</label>
-                        <input type="text" id="familiar_neoplasia" name="familiar_neoplasia" placeholder="Parentesco" class="flex-grow px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <label for="familiar_diabetes" class="w-1/3 font-medium text-gray-700">Diabetes</label>
-                        <input type="text" id="familiar_diabetes" name="familiar_diabetes" placeholder="Parentesco" class="flex-grow px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <label for="familiar_drc" class="w-1/3 font-medium text-gray-700">DRC</label>
-                        <input type="text" id="familiar_drc" name="familiar_drc" placeholder="Parentesco" class="flex-grow px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <label for="familiar_respiratorio" class="w-1/3 font-medium text-gray-700">Doença Respiratória</label>
-                        <input type="text" id="familiar_respiratorio" name="familiar_respiratorio" placeholder="Parentesco" class="flex-grow px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                </div>
-            </fieldset>
-
-            <!-- Seção 4: Histórico de Medicamentos -->
-            <fieldset class="border-t-2 border-gray-200 pt-4">
-                <legend class="text-xl font-semibold text-gray-700 px-2">4. Histórico de Medicamentos</legend>
-                <div class="grid grid-cols-1 gap-6 mt-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Classes de medicamentos que o paciente já usou (marque todas que se aplicam)</label>
-                        <div id="medicamentos-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                            <!-- Checkboxes de classes de medicamentos são gerados aqui -->
-                        </div>
-                    </div>
-                    <div>
-                        <label for="medicamentos_outros" class="block text-sm font-medium text-gray-700">Outros medicamentos ou detalhes</label>
-                        <textarea id="medicamentos_outros" name="medicamentos_outros" rows="2" class="block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Especifique outros medicamentos ou detalhes das classes selecionadas."></textarea>
-                    </div>
-                    <div>
-                        <label for="hipersensibilidade" class="block text-sm font-medium text-gray-700">Hipersensibilidade / Alergias</label>
-                        <textarea id="hipersensibilidade" name="hipersensibilidade" rows="3" class="block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Descreva qualquer alergia ou reação adversa a medicamentos conhecida."></textarea>
-                    </div>
-                </div>
-            </fieldset>
-            
-            <!-- Seção 5: Queixa Atual -->
-            <fieldset class="border-t-2 border-gray-200 pt-4">
-                <legend class="text-xl font-semibold text-gray-700 px-2">5. Queixa Atual</legend>
-                <div class="grid grid-cols-1 gap-6 mt-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Sintomas e queixas principais (marque todos que se aplicam)</label>
-                        <div id="queixas-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                             <!-- Checkboxes de queixas são gerados aqui -->
-                        </div>
-                    </div>
-                     <div>
-                        <label for="queixa_detalhes" class="block text-sm font-medium text-gray-700">Detalhes da Queixa Atual / Outras</label>
-                        <textarea id="queixa_detalhes" name="queixa_detalhes" rows="3" class="block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Descreva com mais detalhes os sintomas, quando começaram, intensidade, etc."></textarea>
-                    </div>
-                </div>
-            </fieldset>
-            
-            <!-- Ações do formulário -->
-            <div class="flex flex-col md:flex-row items-center justify-end gap-4 pt-4 border-t-2 border-gray-200">
-                 <button type="button" id="clear-form" class="w-full md:w-auto px-6 py-2.5 bg-gray-500 text-white font-medium text-sm leading-tight uppercase rounded-md shadow-md hover:bg-gray-600 hover:shadow-lg focus:bg-gray-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out">
-                    Limpar Ficha
-                </button>
-                <button type="button" id="export-excel" class="w-full md:w-auto px-6 py-2.5 bg-green-600 text-white font-medium text-sm leading-tight uppercase rounded-md shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">
-                    Exportar para Excel
-                </button>
+                <div class="card-base p-6"><h3 class="text-xl font-bold text-center mb-4">Quiz do Farmacêutico</h3><div id="quiz-pharmacy" class="text-center"></div><div class="text-center mt-6"><button onclick="startQuiz('pharmacy')" class="bg-teal-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-teal-600 transition-all transform hover:scale-105 shadow-lg shadow-teal-500/20">Começar Quiz</button></div></div>
             </div>
-        </form>
-         <!-- Rodapé -->
-        <footer class="text-center mt-8 text-sm text-gray-500">
-            <p>&copy; 2024 Ficha Cadastral. Todos os direitos reservados.</p>
-        </footer>
+
+            <!-- SEÇÃO REIKI -->
+            <div id="reiki-section" class="page-section space-y-6">
+                <div class="card-base p-6 relative overflow-hidden">
+                    <i class="fa-solid fa-hands-holding-circle absolute -right-4 -top-4 text-[120px] text-indigo-500/10 dark:text-indigo-500/5"></i>
+                    <div style="--gradient-from: #818cf8; --gradient-to: #6366f1;" class="card-header-gradient flex items-center gap-4 mb-5 p-4 rounded-xl -m-2">
+                         <div class="bg-white/20 rounded-full w-12 h-12 flex items-center justify-center text-2xl text-white"><i class="fa-solid fa-hands-holding-circle"></i></div><h2 class="text-2xl font-bold text-white">Apresentação: Reiki, a Terapia do Equilíbrio</h2>
+                    </div>
+                    <p class="text-[var(--subtle-text-color)] leading-relaxed">Imagine uma terapia suave, não-invasiva, que promove um profundo estado de relaxamento e reequilibra sua energia vital. Esse é o Reiki. Atua como um bálsamo para o corpo e a mente, reconectando-nos com nossa capacidade inata de cura.</p>
+                </div>
+                <div class="card-base p-6"><h3 class="text-xl font-bold text-center mb-4">Quiz de Equilíbrio</h3><div id="quiz-reiki" class="text-center"></div><div class="text-center mt-6"><button onclick="startQuiz('reiki')" class="bg-indigo-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-600 transition-all transform hover:scale-105 shadow-lg shadow-indigo-500/20">Começar Quiz</button></div></div>
+            </div>
+            
+            <!-- SEÇÃO FITOTERAPIA -->
+            <div id="fitoterapia-section" class="page-section space-y-6">
+                 <div class="card-base p-6 relative overflow-hidden">
+                    <i class="fa-solid fa-leaf absolute -right-4 -top-4 text-[120px] text-green-500/10 dark:text-green-500/5"></i>
+                    <div style="--gradient-from: #4ade80; --gradient-to: #22c55e;" class="card-header-gradient flex items-center gap-4 mb-5 p-4 rounded-xl -m-2">
+                         <div class="bg-white/20 rounded-full w-12 h-12 flex items-center justify-center text-2xl text-white"><i class="fa-solid fa-leaf"></i></div><h2 class="text-2xl font-bold text-white">Apresentação: Fitoterapia, a Sabedoria da Natureza</h2>
+                    </div>
+                    <p class="text-[var(--subtle-text-color)] leading-relaxed">A Fitoterapia é a prova de que a naturez é a farmácia mais antiga e sábia do mundo. Ao escolher a fitoterapia, você opta por um tratamento eficaz, sustentável e com uma abordagem mais gentil ao corpo.</p>
+                </div>
+                <div class="card-base p-6"><h3 class="text-xl font-bold text-center mb-4">Herbário Interativo</h3><p class="text-center text-[var(--subtle-text-color)] mb-4">Arraste a planta até sua indicação correta!</p><div id="game-fitoterapia"></div><div class="text-center mt-6"><button onclick="startFitoGame()" class="bg-green-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-600 transition-all transform hover:scale-105 shadow-lg shadow-green-500/20">Reiniciar Herbário</button></div></div>
+            </div>
+
+            <!-- SEÇÃO MUSICOTERAPIA -->
+            <div id="musicoterapia-section" class="page-section space-y-6">
+                 <div class="card-base p-6 relative overflow-hidden">
+                    <i class="fa-solid fa-music absolute -right-4 -top-4 text-[120px] text-rose-500/10 dark:text-rose-500/5"></i>
+                    <div style="--gradient-from: #f472b6; --gradient-to: #ec4899;" class="card-header-gradient flex items-center gap-4 mb-5 p-4 rounded-xl -m-2">
+                         <div class="bg-white/20 rounded-full w-12 h-12 flex items-center justify-center text-2xl text-white"><i class="fa-solid fa-music"></i></div><h2 class="text-2xl font-bold text-white">Apresentação: Musicoterapia, a Vibração que Cura</h2>
+                    </div>
+                    <p class="text-[var(--subtle-text-color)] leading-relaxed">A Musicoterapia é a aplicação clínica da música para curar e transformar, utilizando ritmo, melodia e harmonia como ferramentas para reabilitar, expressar emoções e melhorar a saúde mental de forma tocante e eficaz.</p>
+                </div>
+                 <div class="card-base p-6"><h3 class="text-xl font-bold text-center mb-4">Memória Musical</h3><p class="text-center text-[var(--subtle-text-color)] mb-4">Encontre os 8 pares de instrumentos!</p><div id="game-musicoterapia" class="flex justify-center"></div><div class="text-center mt-6"><button onclick="startMusicGame()" class="bg-rose-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-rose-600 transition-all transform hover:scale-105 shadow-lg shadow-rose-500/20">Reiniciar Jogo</button></div></div>
+            </div>
+
+            <!-- SEÇÃO GEOTERAPIA -->
+            <div id="geoterapia-section" class="page-section space-y-6">
+                 <div class="card-base p-6 relative overflow-hidden">
+                    <i class="fa-solid fa-spa absolute -right-4 -top-4 text-[120px] text-amber-500/10 dark:text-amber-500/5"></i>
+                    <div style="--gradient-from: #f59e0b; --gradient-to: #fbbf24;" class="card-header-gradient flex items-center gap-4 mb-5 p-4 rounded-xl -m-2">
+                         <div class="bg-white/20 rounded-full w-12 h-12 flex items-center justify-center text-2xl text-white"><i class="fa-solid fa-spa"></i></div><h2 class="text-2xl font-bold text-white">Apresentação: Geoterapia, a Força da Terra</h2>
+                    </div>
+                    <p class="text-[var(--subtle-text-color)] leading-relaxed">A Geoterapia nos reconecta com a força de cura do nosso planeta. Utilizando as propriedades terapêuticas das argilas, esta prática milenar é um poderoso recurso para desintoxicar, desinflamar e revitalizar o corpo.</p>
+                </div>
+                 <div class="card-base p-6"><h3 class="text-xl font-bold text-center mb-4">Argila Terapêutica</h3><p class="text-center text-[var(--subtle-text-color)] mb-4">Arraste a argila para sua principal indicação!</p><div id="game-geoterapia"></div><div class="text-center mt-6"><button onclick="startGeoGame()" class="bg-amber-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-all transform hover:scale-105 shadow-lg shadow-amber-500/20">Reiniciar Jogo</button></div></div>
+            </div>
+        </main>
     </div>
+
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[95%] max-w-lg bg-[var(--card-bg-color)]/80 backdrop-blur-sm border border-[var(--border-color)] flex justify-around p-2 shadow-2xl shadow-[var(--shadow-color)] rounded-2xl nav-container">
+        <button onclick="showSection('pharmacy-section', this)" class="nav-btn z-10 flex-1 text-center py-2 px-1 rounded-lg transition-colors text-[var(--subtle-text-color)] active"><i class="fa-solid fa-pills text-xl"></i><span class="block text-xs font-medium">Farmácia</span></button>
+        <button onclick="showSection('reiki-section', this)" class="nav-btn z-10 flex-1 text-center py-2 px-1 rounded-lg transition-colors text-[var(--subtle-text-color)]"><i class="fa-solid fa-hands-holding-circle text-xl"></i><span class="block text-xs font-medium">Reiki</span></button>
+        <button onclick="showSection('fitoterapia-section', this)" class="nav-btn z-10 flex-1 text-center py-2 px-1 rounded-lg transition-colors text-[var(--subtle-text-color)]"><i class="fa-solid fa-leaf text-xl"></i><span class="block text-xs font-medium">Fitoterapia</span></button>
+        <button onclick="showSection('musicoterapia-section', this)" class="nav-btn z-10 flex-1 text-center py-2 px-1 rounded-lg transition-colors text-[var(--subtle-text-color)]"><i class="fa-solid fa-music text-xl"></i><span class="block text-xs font-medium">Música</span></button>
+        <button onclick="showSection('geoterapia-section', this)" class="nav-btn z-10 flex-1 text-center py-2 px-1 rounded-lg transition-colors text-[var(--subtle-text-color)]"><i class="fa-solid fa-spa text-xl"></i><span class="block text-xs font-medium">Geoterapia</span></button>
+        <div id="nav-indicator" class="nav-indicator"></div>
+    </nav>
+
+    <!-- Modal para Resultado do Quiz -->
+    <div id="quiz-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 transition-opacity duration-300"><div id="modal-content" class="bg-[var(--card-bg-color)] rounded-2xl shadow-xl p-8 max-w-sm w-full text-center transform scale-95 transition-all duration-300"><h2 id="modal-title" class="text-2xl font-bold mb-4">Resultado do Quiz</h2><p id="modal-score" class="text-lg mb-2"></p><p id="modal-message" class="text-[var(--subtle-text-color)] mb-6"></p><button onclick="closeModal()" class="bg-teal-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-teal-600 transition-all transform hover:scale-105 shadow-lg shadow-teal-500/20">Fechar</button></div></div>
     
-    <!-- Modal de confirmação -->
-    <div id="confirmation-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div class="mt-3 text-center">
-                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-                    <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
+    <!-- Modal Sobre -->
+    <div id="about-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 transition-opacity duration-300">
+        <div id="about-modal-content" class="bg-[var(--card-bg-color)] rounded-2xl shadow-xl p-8 max-w-md w-full text-left transform scale-95 transition-all duration-300">
+            <h2 class="text-2xl font-bold mb-6 text-center">Sobre o Projeto</h2>
+            <div class="space-y-4 text-sm text-[var(--subtle-text-color)]">
+                <div>
+                    <strong class="block text-[var(--text-color)]">Desenvolvido por:</strong>
+                    <span>João Vitor Ferreira Antonio</span>
                 </div>
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">Sucesso!</h3>
-                <div class="mt-2 px-7 py-3">
-                    <p class="text-sm text-gray-500" id="modal-message"></p>
+                <div>
+                    <strong class="block text-[var(--text-color)]">Orientadora:</strong>
+                    <span>Professora ELICYANE JONILLE CARVALHO GUIMARAES</span>
                 </div>
-                <div class="items-center px-4 py-3">
-                    <button id="close-modal" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
-                        OK
-                    </button>
+                <div>
+                    <strong class="block text-[var(--text-color)]">Co-Orientadora:</strong>
+                    <span>Professora KAROLINE LO JIMENEZ</span>
                 </div>
+            </div>
+            <div class="text-center mt-8">
+                <button onclick="closeAboutModal()" class="bg-teal-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-teal-600 transition-all transform hover:scale-105 shadow-lg shadow-teal-500/20">Fechar</button>
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // --- Populando Checkboxes Dinamicamente ---
-            const
-            medicamentosContainer = document.getElementById('medicamentos-container');
-            const queixasContainer = document.getElementById('queixas-container');
+        const sections = document.querySelectorAll('.page-section');
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const navIndicator = document.getElementById('nav-indicator');
 
-            const classesMedicamentos = [
-                'Analgésicos', 'Anti-inflamatórios', 'Antibióticos', 'Antifúngicos', 'Antivirais', 'Anti-hipertensivos',
-                'Diuréticos', 'Antidiabéticos', 'Hipolipemiantes', 'Anticoagulantes', 'Broncodilatadores', 'Corticosteroides',
-                'Antiácidos', 'Antialérgicos', 'Antidepressivos', 'Ansiolíticos', 'Antipsicóticos', 'Anticonvulsivantes', 'Hormônios'
-            ];
+        function showSection(sectionId, clickedButton) {
+            sections.forEach(s => s.classList.toggle('active', s.id === sectionId));
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            clickedButton.classList.add('active');
+            const btnWidth = clickedButton.offsetWidth;
+            navIndicator.style.left = `${clickedButton.offsetLeft + (btnWidth - navIndicator.offsetWidth) / 2}px`;
+            window.scrollTo(0, 0);
+        }
 
-            const queixasComuns = [
-                'Febre', 'Dor de cabeça', 'Tosse', 'Falta de ar', 'Dor no peito', 'Dor abdominal', 'Náusea/Vômito', 'Diarreia',
-                'Tontura', 'Fadiga', 'Dor nas costas', 'Dor de garganta', 'Coriza', 'Perda de peso', 'Insônia', 'Ansiedade'
-            ];
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const html = document.documentElement;
+        darkModeToggle.addEventListener('change', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('darkMode', html.classList.contains('dark'));
+        });
+        if (localStorage.getItem('darkMode') === 'true') {
+            html.classList.add('dark');
+            darkModeToggle.checked = true;
+        }
+        
+        const quizModal = document.getElementById('quiz-modal');
+        const modalContent = document.getElementById('modal-content');
+        
+        const quizData = {
+            pharmacy: { 
+                theme: 'teal',
+                questions: [
+                    { q: "A frase 'Práticas integrativas substituem remédios' é um...", a: "Mito", o: ["Mito", "Fato"] },
+                    { q: "Qual a portaria que instituiu a PNPIC no SUS?", a: "Portaria 971/2006", o: ["Portaria 123/2000", "Portaria 971/2006", "RDC 26/2014"] },
+                    { q: "O farmacêutico pode prescrever fitoterápicos?", a: "Sim, para problemas de saúde autolimitados", o: ["Não, nunca", "Sim, para qualquer doença", "Sim, para problemas de saúde autolimitados"] },
+                    { q: "Qual o principal risco do uso de plantas medicinais sem orientação?", a: "Interação com outros medicamentos", o: ["Não ter efeito", "Ser muito caro", "Interação com outros medicamentos"] },
+                    { q: "A sigla PICS significa:", a: "Práticas Integrativas e Complementares em Saúde", o: ["Procedimentos Internos de Cuidado e Saúde", "Práticas Inovadoras de Cura e Suporte", "Práticas Integrativas e Complementares em Saúde"] },
+                    { q: "Homeopatia é uma das PICS ofertadas no SUS?", a: "Sim", o: ["Sim", "Não"] },
+                    { q: "O que é o acompanhamento farmacoterapêutico?", a: "Um serviço para otimizar o uso de medicamentos", o: ["Apenas a venda de remédios", "A consulta médica", "Um serviço para otimizar o uso de medicamentos"] },
+                    { q: "A Atenção Farmacêutica visa principalmente:", a: "Melhorar a qualidade de vida do paciente", o: ["Aumentar as vendas da farmácia", "Substituir o médico", "Melhorar a qualidade de vida do paciente"] },
+                    { q: "Qual PICS utiliza a imposição de mãos?", a: "Reiki", o: ["Fitoterapia", "Reiki", "Musicoterapia"] },
+                    { q: "O SUS garante acesso gratuito às PICS?", a: "Sim, em muitas unidades de saúde", o: ["Não, são todas pagas", "Sim, em todas as cidades do Brasil", "Sim, em muitas unidades de saúde"] }
+                ] 
+            },
+            reiki: { 
+                theme: 'indigo',
+                questions: [
+                    { q: "É preciso 'acreditar' no Reiki para que ele funcione?", a: "Não, os efeitos são fisiológicos", o: ["Sim, a fé é fundamental", "Não, os efeitos são fisiológicos"] },
+                    { q: "Reiki é uma prática...", a: "Não-invasiva", o: ["Invasiva", "Cirúrgica", "Não-invasiva"] },
+                    { q: "Qual a origem do Reiki?", a: "Japão", o: ["China", "Índia", "Japão"] },
+                    { q: "O que significa 'Ki' em Reiki?", a: "Energia Vital", o: ["Mente", "Corpo", "Energia Vital"] },
+                    { q: "O Reiki pode ser usado em animais e plantas?", a: "Sim", o: ["Sim", "Não"] },
+                    { q: "Qual o principal benefício do Reiki segundo estudos?", a: "Redução do estresse e ansiedade", o: ["Cura de fraturas", "Aumento de força muscular", "Redução do estresse e ansiedade"] },
+                    { q: "O Reiki substitui um tratamento médico?", a: "Não, é uma terapia complementar", o: ["Sim, para casos simples", "Não, é uma terapia complementar", "Depende do caso"] },
+                    { q: "Como a energia é transmitida no Reiki?", a: "Pela imposição das mãos", o: ["Pelo som", "Pela fala", "Pela imposição das mãos"] },
+                    { q: "Qual destes NÃO é um dos cinco princípios do Reiki?", a: "Seja rico", o: ["Só por hoje, não se zangue", "Seja grato", "Seja rico"] },
+                    { q: "O Reiki é reconhecido pelo Ministério da Saúde do Brasil?", a: "Sim, como parte da PNPIC", o: ["Não", "Ainda está em análise", "Sim, como parte da PNPIC"] }
+                ] 
+            }
+        };
+        let currentQuiz, currentQuestionIndex, score;
 
-            const createCheckbox = (item, groupName) => {
-                const id = `${groupName}_${item.replace(/ /g, '_').toLowerCase()}`;
-                return `
-                    <div>
-                        <input type="checkbox" id="${id}" name="${groupName}" value="${item}">
-                        <label for="${id}" class="custom-checkbox-label">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12.6111L8.92308 17.5L20 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            <span class="checkbox-text text-sm">${item}</span>
-                        </label>
+        function startQuiz(topic) { currentQuiz = topic; currentQuestionIndex = 0; score = 0; displayQuestion(); }
+        function displayQuestion() {
+            const container = document.getElementById(`quiz-${currentQuiz}`);
+            const quizTheme = quizData[currentQuiz].theme;
+            if (currentQuestionIndex < quizData[currentQuiz].questions.length) {
+                const qData = quizData[currentQuiz].questions[currentQuestionIndex];
+                const buttonClasses = `w-full text-left p-4 rounded-xl font-medium transition-all duration-300 transform focus:outline-none border-2 bg-[var(--bg-color)] border-[var(--border-color)] hover:border-${quizTheme}-500 hover:bg-[var(--card-bg-color)] hover:text-${quizTheme}-500 dark:hover:text-${quizTheme}-400 dark:hover:border-${quizTheme}-400`;
+                container.innerHTML = `<p class="text-lg font-semibold mb-6">${qData.q}</p><div class="grid grid-cols-1 gap-4">${qData.o.map(opt => `<button onclick="checkAnswer(this, '${opt}')" class="${buttonClasses}">${opt}</button>`).join('')}</div>`;
+            } else { showResult(); }
+        }
+        function checkAnswer(button, selected) {
+            const isCorrect = selected === quizData[currentQuiz].questions[currentQuestionIndex].a;
+            if (isCorrect) score++;
+            button.className = button.className.replace(/hover:[a-zA-Z0-9-]+/g, '');
+            const feedbackBaseClasses = "w-full text-left p-4 rounded-xl font-medium transition-all duration-300 transform focus:outline-none border-2 text-white";
+            button.className = isCorrect ? `${feedbackBaseClasses} bg-green-500 border-green-600` : `${feedbackBaseClasses} bg-red-500 border-red-600`;
+            document.querySelectorAll(`#quiz-${currentQuiz} button`).forEach(b => b.disabled = true);
+            setTimeout(() => { currentQuestionIndex++; displayQuestion(); }, 1200);
+        }
+        function showResult() {
+            const total = quizData[currentQuiz].questions.length;
+            document.getElementById('modal-score').innerText = `Acertou ${score} de ${total}!`;
+            document.getElementById('modal-message').innerText = score === total ? 'Parabéns, você sabe tudo!' : 'Continue a aprender connosco!';
+            quizModal.classList.remove('hidden');
+            setTimeout(() => { quizModal.style.opacity = '1'; modalContent.style.transform = 'scale(1)'; }, 10);
+        }
+        function closeModal() { quizModal.style.opacity = '0'; modalContent.style.transform = 'scale(0.95)'; setTimeout(() => { quizModal.classList.add('hidden'); }, 300); }
+
+        const aboutModal = document.getElementById('about-modal');
+        const aboutModalContent = document.getElementById('about-modal-content');
+
+        function openAboutModal() {
+            aboutModal.classList.remove('hidden');
+            setTimeout(() => {
+                aboutModal.style.opacity = '1';
+                aboutModalContent.style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        function closeAboutModal() {
+            aboutModal.style.opacity = '0';
+            aboutModalContent.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                aboutModal.classList.add('hidden');
+            }, 300);
+        }
+
+        function handleDragStart(e) { e.dataTransfer.setData('text/plain', e.target.dataset.id); e.target.classList.add('opacity-50'); }
+        function handleDragEnd(e) { e.target.classList.remove('opacity-50'); }
+        function handleDragOver(e) { e.preventDefault(); e.target.closest('.drop-zone').classList.add('drag-over'); }
+        function handleDragLeave(e) { e.target.closest('.drop-zone').classList.remove('drag-over'); }
+
+        const fitoGameData = [ 
+            { id: 'camomila', name: 'Camomila', use: 'Calmante e Digestivo' }, 
+            { id: 'gengibre', name: 'Gengibre', use: 'Náuseas e Enjoos' }, 
+            { id: 'arnica', name: 'Arnica', use: 'Contusões (Uso Tópico)' }, 
+            { id: 'espinheira', name: 'Espinheira-santa', use: 'Azia e Gastrite' },
+            { id: 'hortela', name: 'Hortelã', use: 'Gases e Digestão' },
+            { id: 'valeriana', name: 'Valeriana', use: 'Insônia e Ansiedade' }
+        ];
+        function startFitoGame() {
+            const cont = document.getElementById('game-fitoterapia');
+            const plants = fitoGameData.sort(() => 0.5 - Math.random());
+            const uses = fitoGameData.sort(() => 0.5 - Math.random());
+            cont.innerHTML = `<div class="flex flex-col md:flex-row gap-6 items-center md:items-start"><div class="flex flex-wrap gap-3 justify-center">${plants.map(p => `<div data-id="${p.id}" draggable="true" class="draggable-item bg-green-100 dark:bg-green-900/50 p-3 rounded-lg text-center w-24"><i class="fa-solid fa-seedling text-3xl text-green-500"></i><p class="font-semibold mt-2 text-green-800 dark:text-green-300 text-sm">${p.name}</p></div>`).join('')}</div><div class="w-full md:w-1/2 space-y-3">${uses.map(u => `<div data-id="${u.id}" class="drop-zone p-4 rounded-lg min-h-[60px] flex items-center justify-center text-center text-sm font-medium text-[var(--subtle-text-color)]">${u.use}</div>`).join('')}</div></div>`;
+            cont.querySelectorAll('.draggable-item').forEach(item => { item.addEventListener('dragstart', handleDragStart); item.addEventListener('dragend', handleDragEnd); });
+            cont.querySelectorAll('.drop-zone').forEach(zone => { zone.addEventListener('dragover', handleDragOver); zone.addEventListener('dragleave', handleDragLeave); zone.addEventListener('drop', handleFitoDrop); });
+        }
+        function handleFitoDrop(e) {
+            e.preventDefault();
+            const zone = e.target.closest('.drop-zone');
+            zone.classList.remove('drag-over');
+            const draggedId = e.dataTransfer.getData('text/plain');
+            const draggableEl = document.querySelector(`.draggable-item[data-id="${draggedId}"]`);
+            if (zone.dataset.id === draggedId) {
+                zone.innerHTML = `<p class="font-bold text-green-500">Correto!</p>`;
+                zone.classList.add('correct');
+                draggableEl.draggable = false;
+                draggableEl.classList.add('dropped');
+            }
+        }
+
+        const geoGameData = [ 
+            { id: 'verde', name: 'Argila Verde', use: 'Pele Oleosa / Detox' }, 
+            { id: 'branca', name: 'Argila Branca', use: 'Peles Sensíveis' }, 
+            { id: 'vermelha', name: 'Argila Vermelha', use: 'Estimular Circulação' },
+            { id: 'preta', name: 'Argila Preta', use: 'Anti-inflamatório' },
+            { id: 'amarela', name: 'Argila Amarela', use: 'Rejuvenescimento' },
+            { id: 'cinza', name: 'Argila Cinza', use: 'Combate à Acne' }
+        ];
+        function startGeoGame() {
+            const cont = document.getElementById('game-geoterapia');
+            const clays = geoGameData.sort(() => 0.5 - Math.random());
+            const uses = geoGameData.sort(() => 0.5 - Math.random());
+            cont.innerHTML = `<div class="flex flex-col md:flex-row gap-6 items-center md:items-start"><div class="flex flex-wrap gap-3 justify-center">${clays.map(c => `<div data-id="${c.id}" draggable="true" class="draggable-item bg-amber-100 dark:bg-amber-900/50 p-3 rounded-lg text-center w-24"><i class="fa-solid fa-mortar-pestle text-3xl text-amber-500"></i><p class="font-semibold mt-2 text-amber-800 dark:text-amber-300 text-sm">${c.name}</p></div>`).join('')}</div><div class="w-full md:w-1/2 space-y-3">${uses.map(u => `<div data-id="${u.id}" class="drop-zone p-4 rounded-lg min-h-[60px] flex items-center justify-center text-center text-sm font-medium text-[var(--subtle-text-color)]">${u.use}</div>`).join('')}</div></div>`;
+            cont.querySelectorAll('.draggable-item').forEach(item => { item.addEventListener('dragstart', handleDragStart); item.addEventListener('dragend', handleDragEnd); });
+            cont.querySelectorAll('.drop-zone').forEach(zone => { zone.addEventListener('dragover', handleDragOver); zone.addEventListener('dragleave', handleDragLeave); zone.addEventListener('drop', handleGeoDrop); });
+        }
+        function handleGeoDrop(e) {
+            e.preventDefault();
+            const zone = e.target.closest('.drop-zone');
+            zone.classList.remove('drag-over');
+            const draggedId = e.dataTransfer.getData('text/plain');
+            const draggableEl = document.querySelector(`.draggable-item[data-id="${draggedId}"]`);
+            if (zone.dataset.id === draggedId) {
+                zone.innerHTML = `<p class="font-bold text-green-500">Correto!</p>`;
+                zone.classList.add('correct');
+                draggableEl.draggable = false;
+                draggableEl.classList.add('dropped');
+            }
+        }
+
+        const musicIcons = ['guitar', 'drum', 'microphone', 'music', 'headphones', 'compact-disc', 'sliders', 'volume-high'];
+        let flippedCards, musicPairs;
+        function startMusicGame() {
+            flippedCards = []; musicPairs = 0;
+            const cont = document.getElementById('game-musicoterapia');
+            const items = [...musicIcons, ...musicIcons].sort(() => 0.5 - Math.random());
+            cont.innerHTML = `<div class="grid grid-cols-4 gap-3">${items.map(icon => 
+                `<div class="w-16 h-16 sm:w-20 sm:h-20 cursor-pointer" onclick="flipCard(this)">
+                    <div class="relative w-full h-full memory-card">
+                        <div class="absolute w-full h-full card-front bg-rose-200 dark:bg-rose-900/50 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-question text-rose-600 text-2xl"></i>
+                        </div>
+                        <div class="absolute w-full h-full card-back bg-gradient-to-br from-rose-400 to-rose-500 rounded-lg flex items-center justify-center text-white shadow-lg">
+                            <i class="fa-solid fa-${icon} text-3xl"></i>
+                        </div>
                     </div>
-                `;
-            };
-
-            classesMedicamentos.forEach(item => medicamentosContainer.innerHTML += createCheckbox(item, 'medicamento_classe'));
-            queixasComuns.forEach(item => queixasContainer.innerHTML += createCheckbox(item, 'queixa_item'));
-
-            // --- Lógica do Formulário ---
-            const pesoInput = document.getElementById('peso');
-            const alturaInput = document.getElementById('altura');
-            const imcInput = document.getElementById('imc');
-            const exportButton = document.getElementById('export-excel');
-            const clearButton = document.getElementById('clear-form');
-            const form = document.getElementById('patient-form');
-            
-            const modal = document.getElementById('confirmation-modal');
-            const closeModalButton = document.getElementById('close-modal');
-            const modalMessage = document.getElementById('modal-message');
-
-            function calculateIMC() {
-                const peso = parseFloat(pesoInput.value);
-                const altura = parseFloat(alturaInput.value);
-                imcInput.value = (peso > 0 && altura > 0) ? (peso / (altura * altura)).toFixed(2) : '';
+                </div>`
+            ).join('')}</div>`;
+        }
+        function flipCard(el) {
+            const card = el.querySelector('.memory-card');
+            if (flippedCards.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
+                card.classList.add('flipped');
+                flippedCards.push(el);
+                if (flippedCards.length === 2) setTimeout(checkMusicMatch, 1000);
             }
-
-            pesoInput.addEventListener('input', calculateIMC);
-            alturaInput.addEventListener('input', calculateIMC);
-
-            function showModal(message) {
-                modalMessage.textContent = message;
-                modal.classList.remove('hidden');
+        }
+        function checkMusicMatch() {
+            const card1 = flippedCards[0].querySelector('.memory-card');
+            const card2 = flippedCards[1].querySelector('.memory-card');
+            if (card1.querySelector('.card-back i').className === card2.querySelector('.card-back i').className) {
+                card1.classList.add('matched'); card2.classList.add('matched'); musicPairs++;
+            } else {
+                card1.classList.remove('flipped'); card2.classList.remove('flipped');
             }
-            
-            closeModalButton.addEventListener('click', () => modal.classList.add('hidden'));
-
-            exportButton.addEventListener('click', function() {
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
-
-                if (!data.nome || data.nome.trim() === '') {
-                    showModal('Por favor, preencha pelo menos o nome do paciente para exportar.');
-                    // Configura modal para erro
-                    return;
-                }
-
-                const getCheckedValues = (name) => Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value).join('; ');
-                
-                const classesUsadas = getCheckedValues('medicamento_classe');
-                const queixasSelecionadas = getCheckedValues('queixa_item');
-
-                const headers = [
-                    'Nome', 'Filiação', 'CPF', 'Telefone', 'Endereço', 'Idade', 'Sexo', 'Peso (kg)', 'Altura (m)', 'IMC', 
-                    'Ocupação', 'Etnia/Cor', 'Tipagem Sanguínea', 'Naturalidade', 'Cidade Natal', 'Escolaridade', 'Religião', 
-                    'Tabagismo', 'Tabagismo Detalhes', 'Etilismo', 'Etilismo Detalhes', 'Drogas Ilicitas', 'Drogas Ilicitas Detalhes',
-                    'Sedentarismo', 'Sedentarismo Detalhes', 'Ingestao Elevada Sal', 'Ingestao Sal Detalhes', 'Transtorno Social', 'Transtorno Social Detalhes',
-                    'Hist. Familiar: Cardiopatia', 'Hist. Familiar: Neoplasia', 'Hist. Familiar: Diabetes', 'Hist. Familiar: DRC', 'Hist. Familiar: Doença Respiratória',
-                    'Classes de Medicamentos Usados', 'Outros Medicamentos', 'Hipersensibilidade', 
-                    'Queixas Selecionadas', 'Detalhes da Queixa'
-                ];
-
-                const values = [
-                    data.nome, data.filiacao, data.cpf, data.telefone, data.endereco, data.idade, data.sexo, data.peso, data.altura, data.imc,
-                    data.ocupacao, data.etnia, data.tipagem_sanguinea, data.naturalidade, data.cidade_natal, data.escolaridade, data.religiao,
-                    data.tabagismo, data.tabagismo_detalhes, data.etilismo, data.etilismo_detalhes, data.drogas_ilicitas, data.drogas_ilicitas_detalhes,
-                    data.sedentarismo, data.sedentarismo_detalhes, data.ingestao_sal, data.ingestao_sal_detalhes, data.transtorno_social, data.transtorno_social_detalhes,
-                    data.familiar_cardiopatia, data.familiar_neoplasia, data.familiar_diabetes, data.familiar_drc, data.familiar_respiratorio,
-                    classesUsadas, data.medicamentos_outros, data.hipersensibilidade,
-                    queixasSelecionadas, data.queixa_detalhes
-                ];
-
-                const csvRow = values.map(value => {
-                    const strValue = String(value || '');
-                    return `"${strValue.replace(/"/g, '""')}"`;
-                }).join(',');
-
-                const csvContent = "data:text/csv;charset=utf-8," + headers.join(',') + '\n' + csvRow;
-
-                const encodedUri = encodeURI(csvContent);
-                const link = document.createElement("a");
-                link.setAttribute("href", encodedUri);
-                
-                const fileName = `ficha_paciente_${(data.nome.replace(/ /g, '_') || 'novo_paciente').toLowerCase()}.csv`;
-                link.setAttribute("download", fileName);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                showModal(`O arquivo "${fileName}" foi gerado e o download deve começar em breve.`);
-                // Configura modal para sucesso
-            });
-            
-            clearButton.addEventListener('click', function() {
-                form.reset();
-                calculateIMC();
-                showModal('O formulário foi limpo com sucesso.');
-            });
+            flippedCards = [];
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('pharmacy-section', navButtons[0]);
+            startFitoGame();
+            startGeoGame();
+            startMusicGame();
         });
     </script>
 </body>
 </html>
+
 
